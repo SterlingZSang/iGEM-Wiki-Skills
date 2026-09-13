@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-09-13
+
 ### Added
 
 - A progressive input-preflight contract across all six skills that reports discovered context, minimum missing inputs, optional confidence boosters, and starting assumptions before substantial work.

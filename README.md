@@ -2,7 +2,7 @@
 
 A modular Codex skill collection for researching, planning, writing, implementing, and auditing evidence-led iGEM team wikis.
 
-Current release: **v0.8.0**
+Current release: **v0.9.0**
 
 ## Skills
 
@@ -15,9 +15,16 @@ Current release: **v0.8.0**
 | `igem-hp-wiki` | Human Practices, Education, Inclusivity, Sustainability, ethics, and stakeholder integration |
 | `igem-implementation-wiki` | Implementation, Safety, Entrepreneurship, Hardware, Software, and Contribution |
 
-## What v0.8.0 adds
+## What v0.9.0 adds
 
-Release v0.8.0 adds a module-level Model evidence corpus, while retaining the v0.7.1 rendered-page refresh, pinned CI actions, and expanded static auditor.
+Release v0.9.0 adds a progressive input preflight across all six skills, while retaining the v0.8.0 module-level Model evidence corpus.
+
+- a short readiness note that distinguishes discovered context, minimum missing inputs, optional confidence boosters, and starting assumptions;
+- domain-specific input guidance for whole-wiki, story, wet-lab, Model, Human Practices, and implementation work;
+- direct starts for complete requests instead of generic questionnaires or repeated requests for inspectable workspace context;
+- behavioral scenarios for both underspecified and complete requests, plus a repository guard for the shared preflight contract.
+
+The v0.8.0 evidence and tooling foundation remains included:
 
 - a machine-readable benchmark corpus with **1,054 official award records** and **101 domain-scoped page-review records**;
 - controlled taxonomy for all 14 reviewed Model pages across archetype, validation type, data source, and project decision;
@@ -173,4 +180,4 @@ Released under the MIT License. See [LICENSE](LICENSE). Citation metadata is pro
 
 ## 中文简介
 
-这是一组模块化的 iGEM Wiki Codex skills。`igem-wiki` 负责全站证据、赛季合规与跨页面协调，其余五个 skill 分别处理项目叙事、湿实验、建模、Human Practices 和落地实施。v0.8.0 收录 1,054 条官方奖项记录、101 条页面审阅与覆盖 2021–2025 全区间的 34 条 Model 模块证据记录，并加入按科学问题、模型类型、验证方式、参数来源、项目决策和证据边界检索先例的能力。
+这是一组模块化的 iGEM Wiki Codex skills。`igem-wiki` 负责全站证据、赛季合规与跨页面协调，其余五个 skill 分别处理项目叙事、湿实验、建模、Human Practices 和落地实施。v0.9.0 为六个 skill 增加渐进式输入预检：先识别已有材料，只提示真正缺少的信息，并在请求完整时直接开始；同时保留 v0.8.0 的 1,054 条官方奖项记录、101 条页面审阅与覆盖 2021–2025 全区间的 34 条 Model 模块证据记录。

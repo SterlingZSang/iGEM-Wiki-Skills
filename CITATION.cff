@@ -6,8 +6,8 @@ authors:
   - name: "Sterling Travis"
 repository-code: "https://github.com/TravisBoston16/iGEM-Wiki-Skills"
 url: "https://github.com/TravisBoston16/iGEM-Wiki-Skills"
-version: 0.8.0
-date-released: 2026-09-09
+version: 0.9.0
+date-released: 2026-09-13
 license: MIT
 keywords:
   - iGEM
