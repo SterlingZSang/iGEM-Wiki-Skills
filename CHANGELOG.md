@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-09-13
+
 ### Added
 
 - A compact delivery contract across all six skills covering the intended artifact, authorized scope, and observable completion condition.

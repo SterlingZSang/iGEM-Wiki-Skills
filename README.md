@@ -2,7 +2,7 @@
 
 A modular Codex skill collection for researching, planning, writing, implementing, and auditing evidence-led iGEM team wikis.
 
-Current release: **v0.9.0**
+Current release: **v0.10.0**
 
 ## Skills
 
@@ -15,9 +15,17 @@ Current release: **v0.9.0**
 | `igem-hp-wiki` | Human Practices, Education, Inclusivity, Sustainability, ethics, and stakeholder integration |
 | `igem-implementation-wiki` | Implementation, Safety, Entrepreneurship, Hardware, Software, and Contribution |
 
-## What v0.9.0 adds
+## What v0.10.0 adds
 
-Release v0.9.0 adds a progressive input preflight across all six skills, while retaining the v0.8.0 module-level Model evidence corpus.
+Release v0.10.0 closes the user interaction loop across all six skills, while retaining the v0.9.0 progressive input preflight and v0.8.0 module-level Model evidence corpus.
+
+- a compact delivery contract covering the intended artifact, authorized scope, and observable completion condition;
+- a requirement to surface that contract before the first file mutation or costly run, without reconfirming details already supplied;
+- an evidence-bounded handoff that distinguishes delivered work, excluded or unfinished scope, evidence limits, verification, and the most useful next input or action;
+- **30 behavioral evaluation contracts** and a committed independent forward-test report covering all six skills, including an observed failure, corrective change, and passing retest;
+- validation guards for the shared preflight, delivery, completion, and forward-test-report contracts.
+
+The v0.9.0 progressive input experience remains included:
 
 - a short readiness note that distinguishes discovered context, minimum missing inputs, optional confidence boosters, and starting assumptions;
 - domain-specific input guidance for whole-wiki, story, wet-lab, Model, Human Practices, and implementation work;
@@ -182,4 +190,4 @@ Released under the MIT License. See [LICENSE](LICENSE). Citation metadata is pro
 
 ## 中文简介
 
-这是一组模块化的 iGEM Wiki Codex skills。`igem-wiki` 负责全站证据、赛季合规与跨页面协调，其余五个 skill 分别处理项目叙事、湿实验、建模、Human Practices 和落地实施。v0.9.0 为六个 skill 增加渐进式输入预检：先识别已有材料，只提示真正缺少的信息，并在请求完整时直接开始；同时保留 v0.8.0 的 1,054 条官方奖项记录、101 条页面审阅与覆盖 2021–2025 全区间的 34 条 Model 模块证据记录。
+这是一组模块化的 iGEM Wiki Codex skills。`igem-wiki` 负责全站证据、赛季合规与跨页面协调，其余五个 skill 分别处理项目叙事、湿实验、建模、Human Practices 和落地实施。v0.10.0 在渐进式输入预检之外增加交付契约与完成契约：开始前明确交付物、授权范围和完成标准，结束时区分已完成工作、证据限制、验证与下一项关键输入；同时保留 v0.8.0 的 1,054 条官方奖项记录、101 条页面审阅与覆盖 2021–2025 全区间的 34 条 Model 模块证据记录。
