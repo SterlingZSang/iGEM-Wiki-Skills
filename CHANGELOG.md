@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- A compact delivery contract across all six skills covering the intended artifact, authorized scope, and observable completion condition.
+- A work-loop closure that separates delivered artifacts, unfinished scope, evidence limits, verification, and the most useful next input or action.
+- Behavioral scenarios for implementation scope, mid-task changes, evidence-bounded handoff, and small requests that should skip ceremony.
+- A recorded independent forward-test report covering all six skills, including one observed failure, its corrective change, and a passing retest.
+
+### Changed
+
+- Repository validation now requires every skill to preserve the preflight, delivery-contract, and work-loop closure contracts; evaluation validation also checks the structure of committed forward-test reports.
+
 ## [0.9.0] - 2026-09-13
 
 ### Added

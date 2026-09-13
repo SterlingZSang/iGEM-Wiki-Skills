@@ -13,6 +13,10 @@ Before substantial work, inspect the conversation and workspace, then briefly te
 
 Do not ask the user to summarize code or data that can be inspected. If only optional validation evidence is missing, proceed with an evidence-bounded audit or draft and mark the limitation. If the requested conclusion depends on unavailable biological calibration, explain that dependency before promising the deliverable. A complete request should move directly into work rather than receiving a generic checklist.
 
+## Confirm the delivery contract
+
+Before long-running or mutating work, briefly state the intended deliverable, authorized scope, and observable completion condition. For file edits or costly runs, put this contract in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer the details from the request and model artifacts, do not reconfirm what is explicit, and proceed under a stated assumption when uncertainty is non-blocking. Skip this for a small self-contained request.
+
 ## Choose the mode
 
 - **Research:** identify relevant Best Model and Best Wiki winners and extract reusable patterns.
@@ -89,3 +93,7 @@ For implementation work, edit only the requested scope, preserve unrelated user 
 4. Re-check scientific claims against the evidence inventory after layout edits.
 
 Do not present award-derived patterns as judging rules. Report both scientific and UX limitations instead of hiding them behind polish.
+
+## Close the work loop
+
+At handoff, report only applicable items: what was delivered, what remains outside scope, evidence or validation limits, verification performed, and the single most useful next input or action. Omit empty fields, distinguish computational completion from biological validation, and do not ask generically for more work.

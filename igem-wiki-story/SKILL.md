@@ -13,6 +13,10 @@ Before substantial work, inspect the conversation and workspace, then briefly te
 
 Do not ask for information already present in the wiki. If only optional context is missing, proceed with stated assumptions. If the user supplies a complete page and a clear read-only or edit instruction, do not delay the work with a generic questionnaire.
 
+## Confirm the delivery contract
+
+Before long-running or mutating work, briefly state the intended deliverable, authorized scope, and observable completion condition. For file edits or costly runs, put this contract in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer the details from the request and live site, do not reconfirm what is explicit, and proceed under a stated assumption when uncertainty is non-blocking. Skip this for a small self-contained request.
+
 For precedent research or substantial story work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For a new or substantially restructured page, adapt the coordinator's page-brief template before writing. Preserve the evidence status and maturity from the Claim-Evidence Register in headlines, summaries, and award pages.
@@ -43,3 +47,7 @@ Use progressive detail: one-sentence project statement, short story, system diag
 - Test the first screen, global navigation, no-motion or reduced-motion path, mobile layout, keyboard path, and link destinations in a real browser.
 
 Do not copy another team's visual identity, mascots, animations, or prose. Extract information-design decisions and adapt them to the team's evidence and established design system.
+
+## Close the work loop
+
+At handoff, report only applicable items: what was delivered, what remains outside scope, evidence or narrative limits, verification performed, and the single most useful next input or action. Omit empty fields, distinguish page completion from scientific validation, and do not ask generically for more work.

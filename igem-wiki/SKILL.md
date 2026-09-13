@@ -20,6 +20,10 @@ The usual minimum is the intended mode or outcome, the target page or wiki root 
 
 Do not make the user complete a long questionnaire before useful work begins. Never ask them to re-provide files or facts that can be inspected. Ask at most a few focused questions when an answer is genuinely blocking; otherwise proceed with explicit assumptions, label missing evidence, and explain how the optional inputs would improve the next iteration. Skip the formal preflight for a small self-contained request.
 
+## Confirm the delivery contract
+
+Before long-running or mutating work, state a compact user-visible contract with the **deliverable**, authorized **scope**, and observable **done when** condition. For file edits or costly runs, put it in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer these details from the request and inspected workspace; do not ask the user to reconfirm what is already explicit. If a non-blocking detail is uncertain, state the assumption and begin. Update only the affected part when the user changes direction. Skip this contract for a small self-contained request.
+
 ## Route the task
 
 Load only the domain instructions needed for the request:
@@ -88,4 +92,6 @@ When judging criteria, competition rules, deadlines, standard URLs, or award sta
 
 For edits, check syntax and references, then render the real pages at desktop and mobile widths. For a static HTML tree, `scripts/audit_static_wiki.py PATH --no-fail` can provide a read-only first pass for local links and assets, fragments, duplicate identifiers, machine-local paths, image alternatives, figure captions, language, titles, heading count, and heading-level jumps. Repeat `--required-route ROUTE` for current-season Standard URLs, and use `--exclude RELATIVE_PATH` for known non-deployable drafts. Use `--markdown` for a shareable report. Run the allowlisted `--check-external` pass only when network verification is requested; do not make it a deterministic CI gate. Treat warnings as review prompts and do not use this check as a substitute for browser or assistive-technology QA. Test global navigation, local table of contents, anchors, collapsed content, figures, equations, tables, media fallbacks, and outbound evidence links. Essential meaning must remain available without hover, animation, or a particular browser.
 
-Deliver the outcome with the evidence inventory, key gaps, prioritized changes, files changed if any, and verification performed.
+## Close the work loop
+
+At handoff, report only the useful parts of: **Delivered**, **Not completed**, **Evidence limits**, **Verification**, and **Best next input or action**. Omit empty fields. Distinguish an artifact being finished from its scientific claims being validated, and never call work complete when a required check failed or was not run. When another iteration depends on the user, name the exact missing item and how it would change the result; otherwise stop cleanly without a generic request for more work.

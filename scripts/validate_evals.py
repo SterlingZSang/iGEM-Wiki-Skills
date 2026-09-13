@@ -9,6 +9,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 HEADING = re.compile(r"^## (\d+)\. .+$", re.MULTILINE)
+RUN_HEADINGS = (
+    "## Run context",
+    "## Results",
+    "## Corrective change",
+    "## Residual limitations",
+)
 
 
 def main() -> int:
@@ -28,13 +34,24 @@ def main() -> int:
             failures.append(f"scenario {match.group(1)} lacks Expected invariants")
     if not matches:
         failures.append("no behavioral scenarios found")
+
+    run_files = sorted((ROOT / "evals" / "runs").glob("*.md"))
+    if not run_files:
+        failures.append("no behavioral forward-test reports found")
+    for run_file in run_files:
+        run_text = run_file.read_text(encoding="utf-8")
+        for heading in RUN_HEADINGS:
+            if heading not in run_text:
+                failures.append(f"{run_file.name} lacks {heading}")
     if failures:
         print("Behavioral evaluation contract validation failed:")
         for failure in failures:
             print(f"- {failure}")
         return 1
+    report_label = "report" if len(run_files) == 1 else "reports"
     print(
-        f"Validated {len(matches)} behavioral evaluation contracts; "
+        f"Validated {len(matches)} behavioral evaluation contracts and "
+        f"{len(run_files)} forward-test {report_label}; "
         "this structural check does not run or score a model."
     )
     return 0

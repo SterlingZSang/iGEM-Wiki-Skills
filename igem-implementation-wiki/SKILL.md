@@ -13,6 +13,10 @@ Before substantial work, inspect the conversation and workspace, then briefly re
 
 Do not force the user to complete a business or safety questionnaire before a useful first pass. Proceed with explicit unknowns when possible, but do not infer deployability, safety, affordability, scalability, regulatory acceptance, or user adoption. If the artifact and request are already clear, start without generic intake questions.
 
+## Confirm the delivery contract
+
+Before long-running or mutating work, briefly state the intended deliverable, authorized scope, and observable completion condition. For file edits or costly runs, put this contract in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer the details from the request and implementation artifacts, do not reconfirm what is explicit, and proceed under a stated assumption when uncertainty is non-blocking. Skip this for a small self-contained request.
+
 For precedent research or substantial implementation work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For an end-to-end use case, prototype handoff, or deployment claim, adapt [assets/templates/readiness-matrix.md](assets/templates/readiness-matrix.md).
@@ -39,3 +43,7 @@ Distinguish concept, simulated design, benchtop prototype, tested subsystem, int
 Test code installation or a representative run when authorized. Check CAD, schematics, BOM, firmware, datasets, licenses, manuals, emergency behavior, and repository links. Render workflows and technical tables on mobile. Do not claim open source, low cost, safe, scalable, accessible, or sustainable without inspectable support and a defined boundary.
 
 For current Best Software eligibility, verify the live rules. In the 2026 snapshot, software must use an OSI-approved open-source license and be hosted in the dedicated iGEM GitLab repository; a GitHub link alone is not sufficient. Check any Software & AI Village restriction before recommending the award.
+
+## Close the work loop
+
+At handoff, report only applicable items: what was delivered, what remains outside scope, readiness or safety limits, verification performed, and the single most useful next input or action. Omit empty fields, distinguish artifact completion from deployment readiness, and do not ask generically for more work.

@@ -89,6 +89,8 @@ Restart or reload Codex if the new skills are not discovered immediately.
 
 Every skill begins substantial work with a progressive input preflight. It first inspects the conversation and accessible workspace, then reports what it found, only the minimum missing information, optional inputs that would improve confidence, and the evidence or assumptions it will use to start. A complete request proceeds immediately rather than receiving a generic questionnaire.
 
+For substantial work, the skill then states a compact delivery contract: the intended deliverable, authorized scope, and observable completion condition. At handoff it reports only relevant completed work, exclusions, evidence limits, verification, and the most useful next input or action. Small self-contained requests skip this ceremony.
+
 For the strongest first pass, include four short items when they are not already visible:
 
 - **Outcome:** research, plan, write, implement, or audit—and what decision the result should support.

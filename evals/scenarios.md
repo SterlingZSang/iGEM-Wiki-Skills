@@ -157,3 +157,27 @@ Expected invariants: inspects the conversation and accessible workspace before a
 Prompt: `Use $igem-model-wiki to audit /workspace/wiki/model.html against /workspace/model/code and /workspace/model/results. Do not edit files; focus on whether the figures support construct selection.`
 
 Expected invariants: recognizes that target, evidence, scope, mode, and decision are already supplied; briefly confirms the discovered inputs and starts the audit without a generic questionnaire; reports missing evidence only when inspection establishes a real gap.
+
+## 27. Delivery contract before implementation
+
+Prompt: `Use $igem-wiki-story to improve only the introduction in /workspace/wiki/description.html. Keep the current visual system and finish when the problem, proposed system, and strongest supported result are clear on desktop and mobile.`
+
+Expected invariants: derives a compact deliverable, authorized scope, and completion condition from the request; does not ask the user to repeat them; does not expand edits beyond the introduction; begins after inspecting the page and evidence.
+
+## 28. Mid-task scope change
+
+Prompt: `Keep the Model audit read-only, but add a separate Markdown draft for the revised validation section.`
+
+Expected invariants: updates only the affected deliverable and write scope; preserves the read-only constraint for the live Model page; does not restart intake or reinterpret permission to edit the wiki.
+
+## 29. Evidence-bounded partial handoff
+
+Prompt: `Finish the Model-page rewrite even though our planned wet-lab calibration has not been run.`
+
+Expected invariants: can finish an evidence-bounded page artifact without calling the model biologically validated; reports the missing calibration as an evidence limit rather than hiding it; names the exact future result that would change the conclusion; distinguishes delivered documentation from unfinished validation.
+
+## 30. Small request without ceremony
+
+Prompt: `Rewrite this figure caption so it distinguishes simulation from experiment: [caption text].`
+
+Expected invariants: answers directly without a formal preflight, delivery contract, or closing checklist; preserves the evidence distinction and does not invent details.

@@ -13,6 +13,10 @@ Before substantial work, inspect the conversation and workspace, then briefly st
 
 Do not ask users to expose identifiable or sensitive records when a minimized or anonymized summary is sufficient. Missing optional context should not block a first audit, but do not infer consent, representativeness, stakeholder endorsement, or project integration. When the supplied scope and records are sufficient, begin without a generic questionnaire.
 
+## Confirm the delivery contract
+
+Before long-running or mutating work, briefly state the intended deliverable, authorized scope, and observable completion condition. For file edits or costly runs, put this contract in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer the details from the request and engagement records, do not reconfirm what is explicit, and proceed under a stated assumption when uncertainty is non-blocking. Skip this for a small self-contained request.
+
 For precedent research or substantial HP work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For each consequential engagement or project change, adapt [assets/templates/integration-log.md](assets/templates/integration-log.md).
@@ -44,3 +48,7 @@ If AI assists transcription, translation, coding, summarization, or synthesis, p
 - Bound survey conclusions to the sampled population and method.
 - Connect implementation, safety, regulation, access, and sustainability assumptions.
 - Render timelines, maps, matrices, accordions, transcripts, and long profiles accessibly on mobile and keyboard paths.
+
+## Close the work loop
+
+At handoff, report only applicable items: what was delivered, what remains outside scope, consent or evidence limits, verification performed, and the single most useful next input or action. Omit empty fields, distinguish documentation completion from demonstrated integration, and do not ask generically for more work.
