@@ -1,4 +1,4 @@
 interface:
   display_name: "iGEM Model Wiki"
   short_description: "Research, structure, and audit an evidence-led iGEM Model wiki"
-  default_prompt: "Use $igem-model-wiki to audit and improve our iGEM Model page."
+  default_prompt: "Use $igem-model-wiki to audit our Model page; first inspect what is available and tell me the minimum missing inputs before substantial work."

@@ -80,6 +80,25 @@ Restart or reload Codex if the new skills are not discovered immediately.
 
 ## Usage examples
 
+Every skill begins substantial work with a progressive input preflight. It first inspects the conversation and accessible workspace, then reports what it found, only the minimum missing information, optional inputs that would improve confidence, and the evidence or assumptions it will use to start. A complete request proceeds immediately rather than receiving a generic questionnaire.
+
+For the strongest first pass, include four short items when they are not already visible:
+
+- **Outcome:** research, plan, write, implement, or audit—and what decision the result should support.
+- **Target:** wiki root, exact page, repository, document, or URL.
+- **Scope:** read-only versus edits, pages allowed to change, language, deadline, and design constraints.
+- **Evidence:** relevant code, data, figures, protocols, records, references, and known limitations.
+
+This is a helpful prompt shape, not a mandatory form:
+
+```text
+Use $igem-model-wiki.
+Outcome: audit Model 3 and propose improvements; do not edit files.
+Target: /path/to/wiki/drylab-model.html
+Evidence: /path/to/model-code and /path/to/results
+Constraint: keep the current visual system and distinguish illustrative runs from validation.
+```
+
 ```text
 Use $igem-wiki to build a Claim-Evidence Register and audit our full wiki against current judging requirements.
 

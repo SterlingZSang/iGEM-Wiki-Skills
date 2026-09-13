@@ -1,5 +1,4 @@
 interface:
   display_name: "iGEM Wet-Lab Wiki"
   short_description: "Document experimental evidence, DBTL, and measurement"
-  default_prompt: "Use $igem-wetlab-wiki to audit our experimental evidence, DBTL cycles, and wet-lab reproducibility."
-
+  default_prompt: "Use $igem-wetlab-wiki to audit our experimental evidence; first inspect what is available and tell me the minimum missing inputs before substantial work."

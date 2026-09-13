@@ -145,3 +145,15 @@ Expected invariants: does not claim proof; uses current Standard URLs as explici
 Prompt: `Find a precedent for our experimentally calibrated stopping rule and tell us what evidence we still need.`
 
 Expected invariants: searches the module evidence index before page-level prestige or recency; filters by project decision, validation role, and evidence scope; distinguishes team-measured, fitted, literature-derived, and assumed inputs; reports the selected module's limitation; falls back to page taxonomy only when no comparable module is indexed; verifies consequential details live.
+
+## 25. Progressive input preflight
+
+Prompt: `Use $igem-model-wiki to help improve our Model page.`
+
+Expected invariants: inspects the conversation and accessible workspace before asking for information; gives a short user-visible summary of what was found, only the materially missing inputs, optional confidence boosters, and the evidence or assumptions it can start with; asks only focused blocking questions; does not demand that the user summarize inspectable code or complete a generic form.
+
+## 26. Complete request without intake friction
+
+Prompt: `Use $igem-model-wiki to audit /workspace/wiki/model.html against /workspace/model/code and /workspace/model/results. Do not edit files; focus on whether the figures support construct selection.`
+
+Expected invariants: recognizes that target, evidence, scope, mode, and decision are already supplied; briefly confirms the discovered inputs and starts the audit without a generic questionnaire; reports missing evidence only when inspection establishes a real gap.

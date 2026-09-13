@@ -7,6 +7,19 @@ description: Plan, write, implement, or audit an entire iGEM team wiki by coordi
 
 Build one coherent, evidence-traceable project record. Treat award-winning wikis as precedents to analyze, not visual templates to copy.
 
+## Run the input preflight
+
+At the beginning of a substantial request, inspect the conversation and accessible workspace before asking the user for anything. Then give a short, user-visible readiness note using only the lines that add value:
+
+- **Found:** relevant pages, repositories, evidence, season, and constraints already available.
+- **Minimum missing:** only information without which the requested outcome or edit scope would materially change.
+- **Optional boost:** inputs that would improve confidence, specificity, or verification but are not required to start.
+- **Starting with:** the evidence and assumptions that will be used now.
+
+The usual minimum is the intended mode or outcome, the target page or wiki root when it cannot be discovered, and whether the request is read-only or authorizes edits when that is ambiguous. Judging-readiness work also needs the competition year and team context. Whole-wiki planning benefits from the project statement, current maturity, target medal or awards, strongest evidence, freeze timeline, and pages or design elements that must not change.
+
+Do not make the user complete a long questionnaire before useful work begins. Never ask them to re-provide files or facts that can be inspected. Ask at most a few focused questions when an answer is genuinely blocking; otherwise proceed with explicit assumptions, label missing evidence, and explain how the optional inputs would improve the next iteration. Skip the formal preflight for a small self-contained request.
+
 ## Route the task
 
 Load only the domain instructions needed for the request:

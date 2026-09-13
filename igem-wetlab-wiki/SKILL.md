@@ -7,6 +7,12 @@ description: Plan, write, implement, or audit iGEM wet-lab documentation, includ
 
 Turn laboratory work into an auditable chain of design, test, learning, and revision. Preserve failures and uncertainty when they explain the next decision.
 
+## Run the input preflight
+
+Before substantial work, inspect the conversation and workspace, then briefly report what was found, the minimum missing information, optional evidence that would strengthen the result, and what you will use to start. The minimum is normally the target page or experiment, the requested mode or outcome, and edit scope when ambiguous. Useful wet-lab inputs include the biological question, constructs or samples, protocol version, conditions, controls, replicate definitions, raw and processed data, analysis code, figure meanings, exclusions, uncertainty, Registry identifiers, failures, and the decision each result informed.
+
+Do not require a complete experimental dossier before beginning an audit or plan. Proceed with visible gaps when possible, but do not silently infer controls, replicates, units, statistics, or successful outcomes. If the supplied evidence and scope are already sufficient, start without asking generic intake questions.
+
 For precedent research or substantial wet-lab work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 When documenting Engineering Success or a consequential iteration, adapt [assets/templates/dbtl-cycle.md](assets/templates/dbtl-cycle.md). Use the whole-wiki figure evidence card when a figure carries a headline claim.

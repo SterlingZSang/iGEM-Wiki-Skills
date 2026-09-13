@@ -7,6 +7,12 @@ description: Research, plan, write, implement, or audit an iGEM Model wiki page 
 
 Build a Model page that lets a judge trace each important conclusion from biological question to reproducible evidence. Treat award-winning pages as precedents to analyze, not templates to copy.
 
+## Run the input preflight
+
+Before substantial work, inspect the conversation and workspace, then briefly tell the user what was found, the minimum missing information, optional inputs that would improve confidence, and what you will use to start. The minimum is normally the target Model page or module, the requested mode or outcome, and the permitted edit scope when ambiguous. Useful modeling inputs include the biological question, decision the model should support, code or notebook entry point, input data, expected outputs and units, parameter provenance, assumptions, calibration or comparison evidence, uncertainty or sensitivity work, figures, reproduction instructions, and wet-lab or design consequences.
+
+Do not ask the user to summarize code or data that can be inspected. If only optional validation evidence is missing, proceed with an evidence-bounded audit or draft and mark the limitation. If the requested conclusion depends on unavailable biological calibration, explain that dependency before promising the deliverable. A complete request should move directly into work rather than receiving a generic checklist.
+
 ## Choose the mode
 
 - **Research:** identify relevant Best Model and Best Wiki winners and extract reusable patterns.

@@ -7,6 +7,12 @@ description: Plan, write, implement, or audit the narrative and information arch
 
 Make the project understandable before making it impressive. The opening path should tell a judge what problem exists, who experiences it, what the team built, what evidence was obtained, and where to inspect it.
 
+## Run the input preflight
+
+Before substantial work, inspect the conversation and workspace, then briefly tell the user what was found, the minimum missing information, any optional inputs that would improve the result, and what you will use to start. The minimum is normally the target page or site, the desired mode or outcome, and the permitted edit scope when ambiguous. Useful story inputs include the one-sentence project claim, affected users, proposed system, current maturity, strongest supported result, canonical evidence pages, intended reader, language, and visual elements that must remain unchanged.
+
+Do not ask for information already present in the wiki. If only optional context is missing, proceed with stated assumptions. If the user supplies a complete page and a clear read-only or edit instruction, do not delay the work with a generic questionnaire.
+
 For precedent research or substantial story work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For a new or substantially restructured page, adapt the coordinator's page-brief template before writing. Preserve the evidence status and maturity from the Claim-Evidence Register in headlines, summaries, and award pages.

@@ -23,6 +23,7 @@ SKILLS = (
 LOCAL_LINK = re.compile(r"\[[^\]]*\]\((?!https?://|mailto:|#)([^)]+)\)")
 FRONTMATTER = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 ACTION_USE = re.compile(r"^\s*-\s+uses:\s+([^@\s]+)@([^\s#]+)", re.MULTILINE)
+INPUT_PREFLIGHT_HEADING = "## Run the input preflight"
 
 
 def fail(message: str, failures: list[str]) -> None:
@@ -49,6 +50,8 @@ def validate_skill(skill_name: str, failures: list[str]) -> None:
         fail(f"{skill_name}: frontmatter name must match directory", failures)
     if not description_match or not description_match.group(1).strip():
         fail(f"{skill_name}: missing description", failures)
+    if INPUT_PREFLIGHT_HEADING not in text:
+        fail(f"{skill_name}: missing the shared input-preflight contract", failures)
 
     ui_file = skill_dir / "agents" / "openai.yaml"
     if not ui_file.is_file():

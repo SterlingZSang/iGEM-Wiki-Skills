@@ -7,6 +7,12 @@ description: Plan, write, implement, or audit iGEM Implementation, Safety and Se
 
 Translate a project from laboratory result to a bounded use scenario. Make readiness, dependencies, risks, and reusable artifacts explicit instead of presenting a concept as deployable.
 
+## Run the input preflight
+
+Before substantial work, inspect the conversation and workspace, then briefly report what was found, the minimum missing information, optional inputs that would improve the result, and what you will use to start. The minimum is normally the target page or artifact, the intended outcome, and the permitted edit or external-action scope when ambiguous. Useful implementation inputs include intended users and setting, end-to-end workflow, current readiness, performance requirements, achieved tests, failure modes, safety controls, infrastructure, cost, regulation, access, maintenance, end-of-life, repository or design files, license, and the next deployment decision.
+
+Do not force the user to complete a business or safety questionnaire before a useful first pass. Proceed with explicit unknowns when possible, but do not infer deployability, safety, affordability, scalability, regulatory acceptance, or user adoption. If the artifact and request are already clear, start without generic intake questions.
+
 For precedent research or substantial implementation work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For an end-to-end use case, prototype handoff, or deployment claim, adapt [assets/templates/readiness-matrix.md](assets/templates/readiness-matrix.md).

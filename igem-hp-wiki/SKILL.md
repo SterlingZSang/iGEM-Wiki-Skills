@@ -7,6 +7,12 @@ description: Plan, write, implement, or audit iGEM Human Practices, Integrated H
 
 Document a responsible learning process, not a contact diary. The central evidence is how a perspective, need, or tension changed project framing, design, testing, safety, communication, or implementation.
 
+## Run the input preflight
+
+Before substantial work, inspect the conversation and workspace, then briefly state what was found, the minimum missing information, optional inputs that would strengthen the result, and what you will use to start. The minimum is normally the target page or engagement set, the requested mode or outcome, and edit scope when ambiguous. Useful HP inputs include the prior assumption, why each stakeholder or audience was relevant, dates and methods, consent and privacy constraints, original records, what was learned, disagreements, the team's evaluation, concrete project changes, follow-up, affected technical pages, and unresolved tensions.
+
+Do not ask users to expose identifiable or sensitive records when a minimized or anonymized summary is sufficient. Missing optional context should not block a first audit, but do not infer consent, representativeness, stakeholder endorsement, or project integration. When the supplied scope and records are sufficient, begin without a generic questionnaire.
+
 For precedent research or substantial HP work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For each consequential engagement or project change, adapt [assets/templates/integration-log.md](assets/templates/integration-log.md).

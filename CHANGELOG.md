@@ -4,6 +4,17 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- A progressive input-preflight contract across all six skills that reports discovered context, minimum missing inputs, optional confidence boosters, and starting assumptions before substantial work.
+- Domain-specific input guidance for story, wet-lab, Model, Human Practices, implementation, and whole-wiki tasks.
+- Behavioral scenarios for incomplete requests and complete requests that should proceed without questionnaire friction.
+
+### Changed
+
+- Default skill prompts now ask the agent to inspect available materials before identifying missing inputs.
+- Intake guidance distinguishes genuinely blocking information from optional evidence and forbids asking users to re-provide inspectable workspace context.
+
 ## [0.8.0] - 2026-09-09
 
 ### Added

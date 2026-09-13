@@ -1,5 +1,4 @@
 interface:
   display_name: "iGEM Wiki Story"
   short_description: "Shape clear project narrative and wiki information paths"
-  default_prompt: "Use $igem-wiki-story to improve our iGEM project narrative and page-level reading path."
-
+  default_prompt: "Use $igem-wiki-story to improve our project narrative; first inspect what is available and tell me the minimum missing inputs before substantial work."
