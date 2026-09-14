@@ -187,6 +187,153 @@ class StaticAuditTests(unittest.TestCase):
         )
 
 
+class ClaimConsistencyAuditTests(unittest.TestCase):
+    def run_audit(self, root: Path, *extra: str) -> tuple[subprocess.CompletedProcess[str], dict]:
+        result = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "igem-wiki" / "scripts" / "audit_claim_consistency.py"),
+                str(root),
+                "--json",
+                *extra,
+            ],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result, json.loads(result.stdout)
+
+    def test_conflicting_numbers_are_review_candidates(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "results.html").write_text(
+                "<p>SVN protein yield improved for the optimized construct by 12%.</p>",
+                encoding="utf-8",
+            )
+            (root / "award.html").write_text(
+                "<p>SVN protein yield improved for the optimized construct by 98%.</p>",
+                encoding="utf-8",
+            )
+            result, report = self.run_audit(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertTrue(any("numeric" in item["types"] for item in report["findings"]))
+
+    def test_summary_number_without_owner_is_a_review_candidate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "award.html").write_text(
+                "<div><strong>98%</strong><span>Model prediction correlation with experiment</span></div>",
+                encoding="utf-8",
+            )
+            (root / "model.html").write_text(
+                "<p>The model prediction has no matched experiment for correlation analysis.</p>",
+                encoding="utf-8",
+            )
+            result, report = self.run_audit(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertTrue(
+                any("unowned-summary" in item["types"] for item in report["findings"])
+            )
+
+    def test_summary_number_with_matching_owner_is_not_unowned(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            sentence = "SVN protein yield improved for the optimized construct by 12%."
+            (root / "award.html").write_text(f"<p>{sentence}</p>", encoding="utf-8")
+            (root / "results.html").write_text(f"<p>{sentence}</p>", encoding="utf-8")
+            result, report = self.run_audit(root)
+            self.assertEqual(result.returncode, 0)
+            self.assertFalse(
+                any("unowned-summary" in item["types"] for item in report["findings"])
+            )
+
+    def test_conflicting_maturity_is_a_review_candidate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "implementation.html").write_text(
+                "<p>The integrated protein design platform is planned for controlled deployment.</p>",
+                encoding="utf-8",
+            )
+            (root / "award.html").write_text(
+                "<p>The integrated protein design platform is validated for controlled deployment.</p>",
+                encoding="utf-8",
+            )
+            result, report = self.run_audit(root)
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(report["candidates"], 1)
+            self.assertIn("maturity", report["findings"][0]["types"])
+
+    def test_unrelated_claims_are_not_paired(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "education.html").write_text(
+                "<p>Our workshop reached 150 participants across partner schools.</p>",
+                encoding="utf-8",
+            )
+            (root / "results.html").write_text(
+                "<p>SVN protein yield improved for the optimized construct by 12%.</p>",
+                encoding="utf-8",
+            )
+            result, report = self.run_audit(root)
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(report["candidates"], 0)
+
+    def test_section_number_is_not_reinterpreted_as_a_protein_count(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "award.html").write_text(
+                "<p>98% correlation between model predictions and experimental results</p>",
+                encoding="utf-8",
+            )
+            (root / "engineering.html").write_text(
+                "<h2>Cycle 3 Complex Multi-Disulfide Protein Validation</h2>",
+                encoding="utf-8",
+            )
+            _result, report = self.run_audit(root)
+            paired = [item for item in report["findings"] if item["right"] is not None]
+            self.assertEqual(paired, [])
+
+    def test_excluded_directory_is_not_compared(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            drafts = root / "drafts"
+            drafts.mkdir()
+            (root / "results.html").write_text(
+                "<p>SVN protein yield improved for the optimized construct by 12%.</p>",
+                encoding="utf-8",
+            )
+            (drafts / "award.html").write_text(
+                "<p>SVN protein yield improved for the optimized construct by 98%.</p>",
+                encoding="utf-8",
+            )
+            result, report = self.run_audit(root, "--exclude", "drafts")
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(report["html_files"], 1)
+            self.assertEqual(report["candidates"], 0)
+
+    def test_markdown_mode_discloses_review_boundary(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "index.html").write_text(
+                "<p>The integrated protein design platform is planned for controlled deployment.</p>",
+                encoding="utf-8",
+            )
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "igem-wiki" / "scripts" / "audit_claim_consistency.py"),
+                    str(root),
+                    "--markdown",
+                ],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0)
+            self.assertIn("# Cross-page claim consistency audit", result.stdout)
+            self.assertIn("not proof of contradiction", result.stdout)
+
+
 class CorpusQueryTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:

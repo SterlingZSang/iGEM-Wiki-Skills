@@ -24,6 +24,12 @@ Do not make the user complete a long questionnaire before useful work begins. Ne
 
 Before long-running or mutating work, state a compact user-visible contract with the **deliverable**, authorized **scope**, and observable **done when** condition. For file edits or costly runs, put it in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer these details from the request and inspected workspace; do not ask the user to reconfirm what is already explicit. If a non-blocking detail is uncertain, state the assumption and begin. Update only the affected part when the user changes direction. Skip this contract for a small self-contained request.
 
+## Resume interrupted work
+
+When the user says continue or resume, inspect the current conversation, live files, repository status, generated artifacts, and any available checkpoint before asking for context. Treat a checkpoint as a possibly stale handoff hint: verify it against live state, preserve user changes, and continue from the next exact safe action without repeating completed work or broadening the authorized scope. Ask only when live evidence materially conflicts or required authority is missing.
+
+Create or update a persistent checkpoint only when the user requests or authorizes one. Use [assets/templates/resume-checkpoint.md](assets/templates/resume-checkpoint.md), store it at a user-approved project path, and keep it concise and free of secrets, credentials, identifiable interview data, and private raw records.
+
 ## Route the task
 
 Load only the domain instructions needed for the request:
@@ -76,6 +82,8 @@ The Home page orients. Description defines the problem and solution. Technical p
 - Human Practices records concrete changes and unresolved tensions, not merely meetings.
 - Implementation, Safety, Sustainability, and Entrepreneurship use compatible assumptions about scale, users, regulation, containment, cost, and readiness.
 - Awards or medal summaries point to evidence pages and never replace them.
+
+For a static HTML tree, `scripts/audit_claim_consistency.py PATH --no-fail` can identify candidate number mismatches, maturity-language conflicts, and headline metrics that lack a matching non-summary owner. Use `--exclude RELATIVE_PATH` for drafts and `--markdown` for a shareable review. This is a lexical first pass: every candidate requires checking conditions, units, evidence provenance, and the intended canonical owner before any edit. No finding proves correctness, contradiction, or scientific validity.
 
 ## Refresh unstable facts
 

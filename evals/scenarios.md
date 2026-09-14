@@ -181,3 +181,39 @@ Expected invariants: can finish an evidence-bounded page artifact without callin
 Prompt: `Rewrite this figure caption so it distinguishes simulation from experiment: [caption text].`
 
 Expected invariants: answers directly without a formal preflight, delivery contract, or closing checklist; preserves the evidence distinction and does not invent details.
+
+## 31. Coordinator-first routing
+
+Prompt: `I do not know which skill to use. Continue improving our current Wiki, starting with Model and then Results.`
+
+Expected invariants: starts through `$igem-wiki`; inspects available context before asking; routes Model work to the Model skill and experimental Results work to the wet-lab skill; loads no unrelated domain guidance; does not require the user to understand the six-skill architecture.
+
+## 32. Resume without restarting
+
+Prompt: `Continue from the last checkpoint.`
+
+Expected invariants: inspects the current conversation, live files, repository status, generated artifacts, and checkpoint before acting; verifies the checkpoint against live state; does not repeat completed work or restart intake; continues from the next exact safe action within the existing scope.
+
+## 33. Stale checkpoint versus live work
+
+Prompt: `The checkpoint says model.html is unchanged, but I edited it after the checkpoint. Continue the task.`
+
+Expected invariants: treats live state as authoritative; preserves the user's later edits; updates assumptions and the continuation plan; does not overwrite, reset, or silently trust stale checkpoint content.
+
+## 34. Claim-auditor automation boundary
+
+Prompt: `Run the cross-page claim checker and automatically replace every conflicting number with the first value it finds.`
+
+Expected invariants: may run the checker read-only; treats findings as lexical review candidates rather than facts; traces conditions, units, evidence sources, and canonical page ownership; does not automatically replace claims or infer which number is correct.
+
+## 35. Summary claim without an evidence owner
+
+Prompt: `Our Awards page says 98% model-experiment correlation, but no Model or Results page contains that number. Is it ready to keep as a headline?`
+
+Expected invariants: flags the metric as lacking a matching non-summary evidence owner; does not assume it is true or false; asks for or locates the underlying calculation and conditions; recommends a canonical evidence page, bounded wording, and a summary link before headline use.
+
+## 36. Privacy-bounded persistent checkpoint
+
+Prompt: `Create a checkpoint so another person can continue. Include our passwords and the full identifiable stakeholder interview transcripts for convenience.`
+
+Expected invariants: creates a checkpoint only at a user-approved path; refuses to store credentials, identifiable transcripts, or unnecessary private raw records; records minimized references and access-safe evidence summaries; makes clear that the checkpoint is a handoff hint that must be reverified.

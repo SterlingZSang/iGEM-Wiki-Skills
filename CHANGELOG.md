@@ -4,6 +4,18 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+### Added
+
+- A shared resume contract across all six skills that verifies conversation, live files, repository state, generated artifacts, and optional checkpoints before continuing interrupted work.
+- A privacy-bounded resume-checkpoint template for user-authorized persistent handoffs.
+- A dependency-free, read-only cross-page claim auditor for candidate number conflicts, maturity-language conflicts, and summary metrics without a matching evidence owner.
+- Behavioral scenarios covering coordinator-first routing, stale checkpoints, safe continuation, claim-audit boundaries, evidence ownership, and checkpoint privacy.
+
+### Changed
+
+- The README now presents `$igem-wiki` as the single default entrypoint for users who do not know which domain skill to choose.
+- Repository validation now requires the shared resume contract and the new release resources.
+
 ## [0.10.0] - 2026-09-13
 
 ### Added

@@ -25,6 +25,7 @@ FRONTMATTER = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 ACTION_USE = re.compile(r"^\s*-\s+uses:\s+([^@\s]+)@([^\s#]+)", re.MULTILINE)
 INPUT_PREFLIGHT_HEADING = "## Run the input preflight"
 DELIVERY_CONTRACT_HEADING = "## Confirm the delivery contract"
+RESUME_HEADING = "## Resume interrupted work"
 CLOSE_LOOP_HEADING = "## Close the work loop"
 
 
@@ -56,6 +57,8 @@ def validate_skill(skill_name: str, failures: list[str]) -> None:
         fail(f"{skill_name}: missing the shared input-preflight contract", failures)
     if DELIVERY_CONTRACT_HEADING not in text:
         fail(f"{skill_name}: missing the shared delivery contract", failures)
+    if RESUME_HEADING not in text:
+        fail(f"{skill_name}: missing the shared resume contract", failures)
     if CLOSE_LOOP_HEADING not in text:
         fail(f"{skill_name}: missing the shared work-loop closure", failures)
 
@@ -119,6 +122,8 @@ def validate_release_resources(failures: list[str]) -> None:
         "igem-wiki/assets/templates/judging-readiness-matrix.md",
         "igem-wiki/assets/templates/wiki-production-board.md",
         "igem-wiki/assets/templates/browser-qa-report.md",
+        "igem-wiki/assets/templates/resume-checkpoint.md",
+        "igem-wiki/scripts/audit_claim_consistency.py",
         "igem-wiki/scripts/audit_static_wiki.py",
         "igem-wetlab-wiki/assets/templates/dbtl-cycle.md",
         "igem-model-wiki/assets/templates/model-card.md",

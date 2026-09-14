@@ -17,6 +17,10 @@ Do not force the user to complete a business or safety questionnaire before a us
 
 Before long-running or mutating work, briefly state the intended deliverable, authorized scope, and observable completion condition. For file edits or costly runs, put this contract in the first progress update before the first mutation; for read-only work, it may be folded into the readiness note. Infer the details from the request and implementation artifacts, do not reconfirm what is explicit, and proceed under a stated assumption when uncertainty is non-blocking. Skip this for a small self-contained request.
 
+## Resume interrupted work
+
+When the user says continue or resume, inspect the current conversation, live pages and artifacts, repository status, generated outputs, and any available checkpoint before asking for context. Treat a checkpoint as a possibly stale hint and verify it against live state. Preserve user changes, do not repeat finished work or broaden scope, and continue from the next exact safe action. Ask only when live evidence materially conflicts or required authority is missing. Create a persistent checkpoint only when the user requests or authorizes one; if the coordinator skill is installed, use its resume-checkpoint template, otherwise record the same concise fields without secrets, credentials, private records, or sensitive security details.
+
 For precedent research or substantial implementation work, read the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md) and the compact [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live.
 
 For an end-to-end use case, prototype handoff, or deployment claim, adapt [assets/templates/readiness-matrix.md](assets/templates/readiness-matrix.md).

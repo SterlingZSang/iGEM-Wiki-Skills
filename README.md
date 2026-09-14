@@ -15,6 +15,12 @@ Current release: **v0.10.0**
 | `igem-hp-wiki` | Human Practices, Education, Inclusivity, Sustainability, ethics, and stakeholder integration |
 | `igem-implementation-wiki` | Implementation, Safety, Entrepreneurship, Hardware, Software, and Contribution |
 
+Not sure which one to invoke? Start with `$igem-wiki`. It inspects the available context and routes only the relevant domain skill or skills. Invoke a domain skill directly when the request is already confined to one area.
+
+## In development
+
+The next release candidate adds a verified resume path, a privacy-bounded checkpoint template, and a read-only cross-page claim-consistency auditor. These changes are not part of the current v0.10.0 release until a new version is tagged.
+
 ## What v0.10.0 adds
 
 Release v0.10.0 closes the user interaction loop across all six skills, while retaining the v0.9.0 progressive input preflight and v0.8.0 module-level Model evidence corpus.
@@ -45,7 +51,7 @@ The v0.8.0 evidence and tooling foundation remains included:
 - structured primary award links for page reviews and visible year, class, status, and page-function coverage;
 - compact reviewed-page indexes separated from full official award ledgers for progressive loading;
 - dependency-free corpus query and read-only static-site audit tools;
-- four whole-wiki intake, production, judging-readiness, and browser-QA templates;
+- eight whole-wiki evidence, intake, production, judging-readiness, browser-QA, and resume templates;
 - deterministic regression tests plus release-version and evaluation-contract validation;
 - a documented semantic-version release process that separates descriptive development commits from versioned releases.
 
@@ -97,6 +103,8 @@ Restart or reload Codex if the new skills are not discovered immediately.
 
 Every skill begins substantial work with a progressive input preflight. It first inspects the conversation and accessible workspace, then reports what it found, only the minimum missing information, optional inputs that would improve confidence, and the evidence or assumptions it will use to start. A complete request proceeds immediately rather than receiving a generic questionnaire.
 
+If you do not know which skill fits, use `$igem-wiki` and describe the outcome. The coordinator should carry the routing burden rather than asking you to choose among six modules. To resume interrupted work, say what to continue; the skill first checks the conversation and live project state, then uses a checkpoint only as a secondary hint.
+
 For substantial work, the skill then states a compact delivery contract: the intended deliverable, authorized scope, and observable completion condition. At handoff it reports only relevant completed work, exclusions, evidence limits, verification, and the most useful next input or action. Small self-contained requests skip this ceremony.
 
 For the strongest first pass, include four short items when they are not already visible:
@@ -119,6 +127,8 @@ Constraint: keep the current visual system and distinguish illustrative runs fro
 ```text
 Use $igem-wiki to build a Claim-Evidence Register and audit our full wiki against current judging requirements.
 
+Use $igem-wiki to continue our current Wiki work from the available conversation, live files, and checkpoint.
+
 Use $igem-model-wiki to review whether a single-sequence demonstration has been generalized beyond its evidence.
 
 Use $igem-hp-wiki to turn our engagement records into an evidence-backed integration log.
@@ -135,6 +145,7 @@ Use $igem-wetlab-wiki to review whether our Results figures support their claims
 - `igem-wiki/assets/templates/judging-readiness-matrix.md`
 - `igem-wiki/assets/templates/wiki-production-board.md`
 - `igem-wiki/assets/templates/browser-qa-report.md`
+- `igem-wiki/assets/templates/resume-checkpoint.md`
 - `igem-wetlab-wiki/assets/templates/dbtl-cycle.md`
 - `igem-model-wiki/assets/templates/model-card.md`
 - `igem-hp-wiki/assets/templates/integration-log.md`
@@ -157,6 +168,16 @@ For a read-only first pass over static HTML:
 ```bash
 python3 igem-wiki/scripts/audit_static_wiki.py /path/to/wiki --no-fail
 ```
+
+For a read-only review of cross-page numbers, maturity language, and summary claims without a matching evidence owner:
+
+```bash
+python3 igem-wiki/scripts/audit_claim_consistency.py /path/to/wiki --no-fail
+python3 igem-wiki/scripts/audit_claim_consistency.py /path/to/wiki \
+  --exclude drafts --markdown
+```
+
+Its findings are lexical review candidates, not proof of a contradiction or scientific error. Inspect conditions, units, source evidence, and canonical page ownership before changing any claim.
 
 Pass current-season Standard URLs explicitly when needed, for example:
 
