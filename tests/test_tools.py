@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -11,6 +12,15 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DOCTOR = ROOT / "igem-wiki" / "scripts" / "doctor.py"
+SKILLS = (
+    "igem-wiki",
+    "igem-wiki-story",
+    "igem-wetlab-wiki",
+    "igem-model-wiki",
+    "igem-hp-wiki",
+    "igem-implementation-wiki",
+)
 
 
 def load_module(name: str, path: Path):
@@ -419,6 +429,116 @@ class CorpusQueryTests(unittest.TestCase):
                     self.builder.read_csv("broken.csv", ("first", "second"))
             finally:
                 self.builder.CORPUS = original
+
+
+class SkillDoctorTests(unittest.TestCase):
+    def run_doctor(
+        self, skill_root: Path, *extra: str
+    ) -> tuple[subprocess.CompletedProcess[str], dict]:
+        result = subprocess.run(
+            [sys.executable, str(DOCTOR), str(skill_root), "--json", *extra],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result, json.loads(result.stdout)
+
+    def copy_skills(self, target: Path, skills: tuple[str, ...] = SKILLS) -> None:
+        target.mkdir(parents=True)
+        for skill in skills:
+            shutil.copytree(ROOT / skill, target / skill)
+
+    def test_coordinator_requires_missing_siblings(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root, ("igem-wiki",))
+            result, report = self.run_doctor(skill_root)
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(report["expected_mode"], "full-collection")
+            self.assertEqual(set(report["missing_skills"]), set(SKILLS[1:]))
+            self.assertTrue(
+                any(item["code"] == "coordinator-sibling-missing" for item in report["issues"])
+            )
+
+    def test_standalone_domain_skill_is_healthy(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            result, report = self.run_doctor(skill_root)
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(report["expected_mode"], "standalone-domain")
+            self.assertEqual(report["present_skills"], ["igem-model-wiki"])
+            self.assertEqual(report["issues"], [])
+
+    def test_direct_skill_directory_is_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            result, report = self.run_doctor(skill_root / "igem-model-wiki")
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(report["root"], str(skill_root.resolve()))
+            self.assertEqual(report["present_skills"], ["igem-model-wiki"])
+
+    def test_source_comparison_accepts_exact_copy(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root)
+            result, report = self.run_doctor(skill_root, "--source", str(ROOT))
+            self.assertEqual(result.returncode, 0)
+            self.assertEqual(report["issues"], [])
+            self.assertEqual(report["source_version"], (ROOT / "VERSION").read_text().strip())
+
+    def test_source_comparison_reports_stale_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            with (skill_root / "igem-model-wiki" / "SKILL.md").open("a", encoding="utf-8") as handle:
+                handle.write("\nlocal change\n")
+            result, report = self.run_doctor(skill_root, "--source", str(ROOT))
+            self.assertEqual(result.returncode, 1)
+            self.assertTrue(
+                any(item["code"] == "installed-file-stale" for item in report["issues"])
+            )
+
+    def test_valid_default_checkpoint_is_detected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            skill_root = temporary_root / "skills"
+            project_root = temporary_root / "project"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            checkpoint = project_root / ".igem-wiki" / "checkpoint.md"
+            checkpoint.parent.mkdir(parents=True)
+            shutil.copyfile(
+                ROOT / "igem-wiki" / "assets" / "templates" / "resume-checkpoint.md",
+                checkpoint,
+            )
+            result, report = self.run_doctor(
+                skill_root, "--project-root", str(project_root)
+            )
+            self.assertEqual(result.returncode, 0)
+            self.assertTrue(report["checkpoint"]["present"])
+            self.assertEqual(report["checkpoint"]["issues"], [])
+
+    def test_checkpoint_secret_is_reported_without_echo(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            skill_root = temporary_root / "skills"
+            project_root = temporary_root / "project"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            checkpoint = project_root / ".igem-wiki" / "checkpoint.md"
+            checkpoint.parent.mkdir(parents=True)
+            checkpoint.write_text(
+                "# Wiki work checkpoint\n## Context\npassword=verysecret\n",
+                encoding="utf-8",
+            )
+            result, report = self.run_doctor(
+                skill_root, "--project-root", str(project_root)
+            )
+            self.assertEqual(result.returncode, 1)
+            self.assertNotIn("verysecret", result.stdout)
+            codes = {item["code"] for item in report["issues"]}
+            self.assertIn("checkpoint-possible-secret", codes)
+            self.assertIn("checkpoint-heading-missing", codes)
 
 
 if __name__ == "__main__":

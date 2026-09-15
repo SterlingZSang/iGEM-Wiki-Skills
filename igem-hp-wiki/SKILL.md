@@ -7,6 +7,10 @@ description: Plan, write, implement, or audit iGEM Human Practices, Integrated H
 
 Document a responsible learning process, not a contact diary. The central evidence is how a perspective, need, or tension changed project framing, design, testing, safety, communication, or implementation.
 
+## Choose the smallest workflow
+
+Answer a small, self-contained interpretation or wording request directly. For one engagement or page, inspect only its relevant records. Use the full integration, privacy, cross-page, and browser workflow only for substantial or sensitive work. When the goal is understanding rather than publication, explain in the user's language and at their level, distinguish records from team interpretation, and keep publishable Wiki copy separate. Do not edit files unless requested.
+
 ## Run the input preflight
 
 Before substantial work, inspect the conversation and workspace, then briefly state what was found, the minimum missing information, optional inputs that would strengthen the result, and what you will use to start. The minimum is normally the target page or engagement set, the requested mode or outcome, and edit scope when ambiguous. Useful HP inputs include the prior assumption, why each stakeholder or audience was relevant, dates and methods, consent and privacy constraints, original records, what was learned, disagreements, the team's evaluation, concrete project changes, follow-up, affected technical pages, and unresolved tensions.
@@ -45,6 +49,8 @@ Stakeholder matrices, timelines, surveys, and frameworks are tools, not outcomes
 If AI assists transcription, translation, coding, summarization, or synthesis, preserve the original record, verify the output with a responsible team member, avoid uploading unnecessary personal data, and follow the coordinator's AI-integrity protocol.
 
 ## Audit quality
+
+For substantial visual or structural edits, render one representative engagement or timeline section before applying the pattern broadly; continue unless the preview reveals a material consent, evidence, or design conflict.
 
 - Replace meeting counts with change evidence.
 - Preserve disagreement and constraints instead of implying consensus.

@@ -7,6 +7,10 @@ description: Plan, write, implement, or audit iGEM wet-lab documentation, includ
 
 Turn laboratory work into an auditable chain of design, test, learning, and revision. Preserve failures and uncertainty when they explain the next decision.
 
+## Choose the smallest workflow
+
+Answer a small, self-contained experimental or wording question directly. For one experiment or page, inspect only its relevant records. Use the full evidence inventory, cross-page reconciliation, and browser workflow only for substantial or high-risk work. When the goal is understanding rather than publication, explain in the user's language and at their level, define necessary experimental terms, distinguish records from inference, and keep publishable Wiki copy separate. Do not edit files unless requested.
+
 ## Run the input preflight
 
 Before substantial work, inspect the conversation and workspace, then briefly report what was found, the minimum missing information, optional evidence that would strengthen the result, and what you will use to start. The minimum is normally the target page or experiment, the requested mode or outcome, and edit scope when ambiguous. Useful wet-lab inputs include the biological question, constructs or samples, protocol version, conditions, controls, replicate definitions, raw and processed data, analysis code, figure meanings, exclusions, uncertainty, Registry identifiers, failures, and the decision each result informed.
@@ -49,7 +53,7 @@ For a current iGEM season, verify the required Engineering Standard URL and any 
 
 ## Verify
 
-Confirm that protocols match figures, Results match raw or processed data, Engineering cycles match chronology, part identifiers resolve, and duplicated numbers agree. Render tables, gels, microscopy, plots, equations, and long protocols at desktop and mobile widths.
+For substantial visual or structural edits, render one representative result unit before applying the pattern broadly; continue unless the preview reveals a material evidence or design conflict. Confirm that protocols match figures, Results match raw or processed data, Engineering cycles match chronology, part identifiers resolve, and duplicated numbers agree. Render tables, gels, microscopy, plots, equations, and long protocols at desktop and mobile widths.
 
 ## Close the work loop
 

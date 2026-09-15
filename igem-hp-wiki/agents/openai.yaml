@@ -1,4 +1,4 @@
 interface:
   display_name: "iGEM Human Practices Wiki"
   short_description: "Trace stakeholder insight to responsible project change"
-  default_prompt: "Use $igem-hp-wiki to audit stakeholder integration; first inspect what is available and tell me the minimum missing inputs before substantial work."
+  default_prompt: "Use $igem-hp-wiki for my current Human Practices request. Inspect the available records and begin with the smallest suitable workflow."

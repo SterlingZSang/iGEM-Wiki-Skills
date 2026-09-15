@@ -1,6 +1,6 @@
 # Wiki work checkpoint
 
-Use this only when the user authorizes a persistent handoff or checkpoint. Store it at a user-approved project path and update it at meaningful handoffs, not after every small action.
+Use this only when the user authorizes a persistent handoff or checkpoint. Prefer `<project-root>/.igem-wiki/checkpoint.md` when no explicit path is supplied; an explicit or team-shared path overrides this default only within the user's authorized scope. Update it at meaningful handoffs, not after every small action.
 
 This file is a compact navigation aid, not a source of truth. On resume, verify the live files, repository state, generated artifacts, and current conversation before acting. Never store secrets, credentials, identifiable interview data, private raw records, or a transcript of the conversation here.
 
@@ -11,6 +11,7 @@ This file is a compact navigation aid, not a source of truth. On resume, verify 
 - **Active goal:**
 - **Authorized scope:**
 - **Do not change:**
+- **Intended reader and output language:**
 
 ## Current evidence and decisions
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "iGEM Implementation Wiki"
   short_description: "Assess deployment, safety, software, and hardware evidence"
-  default_prompt: "Use $igem-implementation-wiki to audit implementation readiness; first inspect what is available and tell me the minimum missing inputs before substantial work."
+  default_prompt: "Use $igem-implementation-wiki for my current implementation, safety, software, or hardware request. Inspect the available artifacts and begin with the smallest suitable workflow."

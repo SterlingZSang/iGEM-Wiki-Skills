@@ -7,6 +7,10 @@ description: Research, plan, write, implement, or audit an iGEM Model wiki page 
 
 Build a Model page that lets a judge trace each important conclusion from biological question to reproducible evidence. Treat award-winning pages as precedents to analyze, not templates to copy.
 
+## Choose the smallest workflow
+
+Answer a small, self-contained modeling or wording question directly. For one model module, inspect only its page, code, data, and relevant guidance. Use the full evidence inventory, reproducibility, and browser workflow only for substantial, mutating, or high-risk work. When the goal is understanding rather than publication, explain in the user's language and at their level, define symbols and terms, distinguish computation from biological evidence, and keep publishable Wiki copy separate. Do not edit files unless requested.
+
 ## Run the input preflight
 
 Before substantial work, inspect the conversation and workspace, then briefly tell the user what was found, the minimum missing information, optional inputs that would improve confidence, and what you will use to start. The minimum is normally the target Model page or module, the requested mode or outcome, and the permitted edit scope when ambiguous. Useful modeling inputs include the biological question, decision the model should support, code or notebook entry point, input data, expected outputs and units, parameter provenance, assumptions, calibration or comparison evidence, uncertainty or sensitivity work, figures, reproduction instructions, and wet-lab or design consequences.
@@ -23,14 +27,21 @@ When the user says continue or resume, inspect the current conversation, live Mo
 
 ## Choose the mode
 
+- **Understand:** explain the model, equations, code, outputs, and evidence boundaries without turning the explanation into a publication claim.
 - **Research:** identify relevant Best Model and Best Wiki winners and extract reusable patterns.
 - **Plan:** inspect the team's sources and propose a page architecture without editing.
 - **Write or implement:** create or revise only the requested Model-page content and assets.
 - **Audit:** report evidence, narrative, usability, and reproducibility gaps before proposing changes.
 
-If the user asks to research winners or compare exemplars, first use the compact [module evidence index](references/generated/model-modules.md) to select a comparable biological question, method, evidence scope, validation role, and project decision. Use the page-level [Model taxonomy](references/generated/model-taxonomy.md) when no sufficiently similar module is indexed or when page architecture is the comparison target. Then read [references/benchmark-patterns.md](references/benchmark-patterns.md), the curated findings in [references/benchmark-corpus.md](references/benchmark-corpus.md), and only the relevant rows in the [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live. For planning, writing, implementation, or review, also read [references/review-checklist.md](references/review-checklist.md).
+If the user asks to research winners or compare exemplars, first use the compact [module evidence index](references/generated/model-modules.md) to select a comparable biological question, method, evidence scope, validation role, and project decision. Use the page-level [Model taxonomy](references/generated/model-taxonomy.md) when no sufficiently similar module is indexed or when page architecture is the comparison target. Read [references/benchmark-patterns.md](references/benchmark-patterns.md) for reusable principles or [references/benchmark-corpus.md](references/benchmark-corpus.md) for exact reviewed examples; do not load both unless the requested comparison requires them. Then read only the relevant rows in the [reviewed-page index](references/generated/reviewed-pages.md). Read the full [official award ledger](references/generated/award-ledger.md) only when verifying or listing winners and nominees. Verify consequential details live. For planning, writing, implementation, or review, read [references/review-checklist.md](references/review-checklist.md) only when a full page-level check is needed.
 
 Treat the module index as a retrieval aid, not a complete decomposition of every reviewed page. Prefer two or three modules that match the team's actual scientific problem over a large prestige-weighted list. Read each selected module's limitation and parameter provenance before borrowing a presentation pattern.
+
+## Triage computational work
+
+Before a non-trivial run, inspect the actual entry point, input size, parameter grid, replicate count, algorithmic scaling, available hardware, expected outputs, and resumability. Run a small representative smoke test when safe, and label runtime estimates as measured extrapolations or theoretical bounds. Estimate wall time, CPU or GPU needs, peak memory, storage, and parallelism before choosing local execution or HPC; do not launch an expensive full run merely to discover its cost.
+
+Prefer local execution for bounded, reproducible work that fits the available environment. Recommend HPC for large parameter sweeps, many stochastic replicates, memory-heavy structures, long molecular simulations, or jobs that need robust checkpointing or scheduling. When either route is reasonable, explain the tradeoff and let the user's time and access constraints decide. Record software versions, hardware, seeds, commands, wall time, cached intermediates, and restart instructions so the result can be reproduced and resumed.
 
 For a new model module, model handoff, or reproducibility record, adapt [assets/templates/model-card.md](assets/templates/model-card.md). When one sequence or parameter set is only used to demonstrate that a workflow runs, label it an illustrative example and state what additional coverage is needed before generalization.
 
@@ -93,8 +104,9 @@ For implementation work, edit only the requested scope, preserve unrelated user 
 
 1. Check HTML/JS syntax and broken local references.
 2. Verify navigation, anchors, collapsed sections, equations, figures, and outbound code/data links.
-3. Render the real page in a browser at desktop and mobile widths; inspect the top, representative technical sections, and the end.
-4. Re-check scientific claims against the evidence inventory after layout edits.
+3. For substantial visual or structural changes, first render one representative model section; continue to the broader pattern unless the preview reveals a material evidence or design conflict.
+4. Render the real page in a browser at desktop and mobile widths; inspect the top, representative technical sections, and the end.
+5. Re-check scientific claims against the evidence inventory after layout edits.
 
 Do not present award-derived patterns as judging rules. Report both scientific and UX limitations instead of hiding them behind polish.
 

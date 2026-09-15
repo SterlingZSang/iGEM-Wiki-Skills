@@ -27,6 +27,7 @@ INPUT_PREFLIGHT_HEADING = "## Run the input preflight"
 DELIVERY_CONTRACT_HEADING = "## Confirm the delivery contract"
 RESUME_HEADING = "## Resume interrupted work"
 CLOSE_LOOP_HEADING = "## Close the work loop"
+SMALLEST_WORKFLOW_HEADING = "## Choose the smallest workflow"
 
 
 def fail(message: str, failures: list[str]) -> None:
@@ -55,6 +56,8 @@ def validate_skill(skill_name: str, failures: list[str]) -> None:
         fail(f"{skill_name}: missing description", failures)
     if INPUT_PREFLIGHT_HEADING not in text:
         fail(f"{skill_name}: missing the shared input-preflight contract", failures)
+    if SMALLEST_WORKFLOW_HEADING not in text:
+        fail(f"{skill_name}: missing the shared smallest-workflow contract", failures)
     if DELIVERY_CONTRACT_HEADING not in text:
         fail(f"{skill_name}: missing the shared delivery contract", failures)
     if RESUME_HEADING not in text:
@@ -107,6 +110,24 @@ def validate_installed_layout(failures: list[str]) -> None:
                         failures,
                     )
 
+        # Each domain skill is also a supported standalone installation. The
+        # coordinator is excluded because it intentionally requires siblings.
+        for skill in SKILLS[1:]:
+            standalone_root = Path(temporary) / f"standalone-{skill}"
+            shutil.copytree(ROOT / skill, standalone_root / skill)
+            for markdown in (standalone_root / skill).rglob("*.md"):
+                text = markdown.read_text(encoding="utf-8")
+                for raw_target in LOCAL_LINK.findall(text):
+                    target = raw_target.split("#", 1)[0].strip()
+                    if not target or target.startswith("/"):
+                        continue
+                    if not (markdown.parent / target).resolve().exists():
+                        fail(
+                            f"standalone {skill} {markdown.relative_to(standalone_root)}: "
+                            f"broken local link {raw_target}",
+                            failures,
+                        )
+
 
 def validate_release_resources(failures: list[str]) -> None:
     required = (
@@ -125,6 +146,7 @@ def validate_release_resources(failures: list[str]) -> None:
         "igem-wiki/assets/templates/resume-checkpoint.md",
         "igem-wiki/scripts/audit_claim_consistency.py",
         "igem-wiki/scripts/audit_static_wiki.py",
+        "igem-wiki/scripts/doctor.py",
         "igem-wetlab-wiki/assets/templates/dbtl-cycle.md",
         "igem-model-wiki/assets/templates/model-card.md",
         "igem-model-wiki/references/generated/model-taxonomy.md",

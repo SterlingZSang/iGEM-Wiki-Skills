@@ -10,11 +10,17 @@ All notable changes to this project are documented here.
 - A privacy-bounded resume-checkpoint template for user-authorized persistent handoffs.
 - A dependency-free, read-only cross-page claim auditor for candidate number conflicts, maturity-language conflicts, and summary metrics without a matching evidence owner.
 - Behavioral scenarios covering coordinator-first routing, stale checkpoints, safe continuation, claim-audit boundaries, evidence ownership, and checkpoint privacy.
+- An explicit understanding mode that separates user-facing explanation from publishable Wiki copy.
+- Model compute triage for smoke tests, runtime, memory, storage, parallelism, local-versus-HPC selection, and resumability.
+- A dependency-free, read-only doctor for full or standalone installations, source staleness, and privacy-bounded checkpoint discovery.
+- Behavioral scenarios and deterministic tests for outcome-neutral entrypoints, smallest-workflow selection, compute triage, installation diagnosis, checkpoint discovery, and representative previews.
 
 ### Changed
 
 - The README now presents `$igem-wiki` as the single default entrypoint for users who do not know which domain skill to choose.
-- Repository validation now requires the shared resume contract and the new release resources.
+- Default prompts now follow the user's requested outcome instead of assuming an audit, and all six skills select the smallest suitable workflow.
+- Substantial multi-page visual work now starts with one representative rendered slice before broad rollout.
+- Repository validation now requires the shared resume and smallest-workflow contracts, validates standalone domain installations, and requires the new release resources.
 
 ## [0.10.0] - 2026-09-13
 

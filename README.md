@@ -19,7 +19,7 @@ Not sure which one to invoke? Start with `$igem-wiki`. It inspects the available
 
 ## In development
 
-The next release candidate adds a verified resume path, a privacy-bounded checkpoint template, and a read-only cross-page claim-consistency auditor. These changes are not part of the current v0.10.0 release until a new version is tagged.
+The next release candidate adds a verified resume path, a privacy-bounded checkpoint template, and a read-only cross-page claim-consistency auditor. It also makes the default entrypoints outcome-neutral, adds an explicit understanding mode, chooses the smallest useful workflow, previews one representative slice before broad visual changes, triages costly Model runs before execution, and includes a read-only installation/checkpoint doctor. These changes are not part of the current v0.10.0 release until a new version is tagged.
 
 ## What v0.10.0 adds
 
@@ -101,9 +101,9 @@ Restart or reload Codex if the new skills are not discovered immediately.
 
 ## Usage examples
 
-Every skill begins substantial work with a progressive input preflight. It first inspects the conversation and accessible workspace, then reports what it found, only the minimum missing information, optional inputs that would improve confidence, and the evidence or assumptions it will use to start. A complete request proceeds immediately rather than receiving a generic questionnaire.
+Every skill chooses the smallest workflow that can answer the request. A short explanation or wording task is answered directly; a single page loads only its relevant evidence; full preflight, evidence mapping, and browser verification are reserved for substantial or high-risk work. For substantial work, the skill first inspects the conversation and accessible workspace, then reports what it found, only the minimum missing information, optional inputs that would improve confidence, and the evidence or assumptions it will use to start. A complete request proceeds immediately rather than receiving a generic questionnaire.
 
-If you do not know which skill fits, use `$igem-wiki` and describe the outcome. The coordinator should carry the routing burden rather than asking you to choose among six modules. To resume interrupted work, say what to continue; the skill first checks the conversation and live project state, then uses a checkpoint only as a secondary hint.
+If you do not know which skill fits, use `$igem-wiki` and describe the outcome. The coordinator should carry the routing burden rather than asking you to choose among six modules. Understanding requests stay separate from publishable Wiki prose: ask for an explanation in your preferred language and level, and the skill will not edit files unless requested. To resume interrupted work, say what to continue; the skill first checks the conversation and live project state, then uses a checkpoint only as a secondary hint. When no checkpoint path is supplied, the discoverable default is `<project-root>/.igem-wiki/checkpoint.md`.
 
 For substantial work, the skill then states a compact delivery contract: the intended deliverable, authorized scope, and observable completion condition. At handoff it reports only relevant completed work, exclusions, evidence limits, verification, and the most useful next input or action. Small self-contained requests skip this ceremony.
 
@@ -130,6 +130,10 @@ Use $igem-wiki to build a Claim-Evidence Register and audit our full wiki agains
 Use $igem-wiki to continue our current Wiki work from the available conversation, live files, and checkpoint.
 
 Use $igem-model-wiki to review whether a single-sequence demonstration has been generalized beyond its evidence.
+
+Use $igem-model-wiki to explain Model 3 in Chinese for a new team member. Do not rewrite the Wiki yet.
+
+Use $igem-model-wiki to estimate the runtime, memory, storage, and parallelism for this parameter sweep before deciding whether to run it locally or on HPC.
 
 Use $igem-hp-wiki to turn our engagement records into an evidence-backed integration log.
 
@@ -162,6 +166,15 @@ python3 scripts/validate_evals.py
 python3 -m unittest discover -s tests
 python3 scripts/validate_repository.py
 ```
+
+Check an installed collection, optional source freshness, and the default project checkpoint without changing them:
+
+```bash
+python3 igem-wiki/scripts/doctor.py /path/to/.agents/skills \
+  --source /path/to/igem-wiki-skills --project-root /path/to/wiki
+```
+
+The coordinator requires all five sibling skills. A standalone domain skill is valid by itself. The doctor reports differences and possible checkpoint secrets by location only; it never repairs files or displays the suspected secret value. Omit `--source` when only structural installation health is needed, and add `--json` for machine-readable output.
 
 For a read-only first pass over static HTML:
 
@@ -197,7 +210,7 @@ python3 igem-wiki/scripts/audit_static_wiki.py /path/to/wiki \
 
 External checking is optional and allowlisted; keep it out of deterministic CI and interpret connection failures as review prompts.
 
-The checks validate corpus schema and raw-source hashes, duplicate records, official award relationships, domain-year sampling floors, winner/nominee and competition-class coverage, generated-index freshness, release metadata, evaluation contracts, deterministic tool behavior, skill entrypoints, UI metadata, installed-layout references, required resources, and unfinished placeholders. GitHub Actions runs these checks on pushes and pull requests. Behavioral scenarios live in `evals/scenarios.md`; CI checks their structure but does not claim to run a model. See [RELEASING.md](RELEASING.md) for the version and release policy.
+The checks validate corpus schema and raw-source hashes, duplicate records, official award relationships, domain-year sampling floors, winner/nominee and competition-class coverage, generated-index freshness, release metadata, evaluation contracts, deterministic tool behavior, skill entrypoints, UI metadata, full-collection and standalone-domain references, required resources, and unfinished placeholders. GitHub Actions runs these checks on pushes and pull requests. Behavioral scenarios live in `evals/scenarios.md`; CI checks their structure but does not claim to run a model. See [RELEASING.md](RELEASING.md) for the version and release policy.
 
 ## Scope and attribution
 

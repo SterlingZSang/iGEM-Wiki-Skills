@@ -1,4 +1,4 @@
 interface:
   display_name: "iGEM Wiki"
   short_description: "Coordinate an evidence-led, judging-ready iGEM wiki"
-  default_prompt: "Use $igem-wiki to audit our full iGEM wiki; first inspect what is available and give me a short input preflight before prioritizing evidence and judging-readiness gaps."
+  default_prompt: "Use $igem-wiki for my current iGEM Wiki request. Inspect the available context, choose the smallest suitable workflow, and begin unless a missing detail is truly blocking."

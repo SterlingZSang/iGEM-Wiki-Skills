@@ -7,6 +7,10 @@ description: Plan, write, implement, or audit iGEM Implementation, Safety and Se
 
 Translate a project from laboratory result to a bounded use scenario. Make readiness, dependencies, risks, and reusable artifacts explicit instead of presenting a concept as deployable.
 
+## Choose the smallest workflow
+
+Answer a small, self-contained implementation or wording question directly. For one artifact or page, inspect only its relevant evidence. Use the full readiness, safety, cross-page, and browser workflow only for substantial or high-risk work. When the goal is understanding rather than publication, explain in the user's language and at their level, distinguish current readiness from proposals, and keep publishable Wiki copy separate. Do not edit files or external systems unless requested.
+
 ## Run the input preflight
 
 Before substantial work, inspect the conversation and workspace, then briefly report what was found, the minimum missing information, optional inputs that would improve the result, and what you will use to start. The minimum is normally the target page or artifact, the intended outcome, and the permitted edit or external-action scope when ambiguous. Useful implementation inputs include intended users and setting, end-to-end workflow, current readiness, performance requirements, achieved tests, failure modes, safety controls, infrastructure, cost, regulation, access, maintenance, end-of-life, repository or design files, license, and the next deployment decision.
@@ -44,7 +48,7 @@ Distinguish concept, simulated design, benchtop prototype, tested subsystem, int
 
 ## Verify artifacts
 
-Test code installation or a representative run when authorized. Check CAD, schematics, BOM, firmware, datasets, licenses, manuals, emergency behavior, and repository links. Render workflows and technical tables on mobile. Do not claim open source, low cost, safe, scalable, accessible, or sustainable without inspectable support and a defined boundary.
+For substantial visual or structural edits, render one representative workflow or technical section before applying the pattern broadly; continue unless the preview reveals a material safety, evidence, or design conflict. Test code installation or a representative run when authorized. Check CAD, schematics, BOM, firmware, datasets, licenses, manuals, emergency behavior, and repository links. Render workflows and technical tables on mobile. Do not claim open source, low cost, safe, scalable, accessible, or sustainable without inspectable support and a defined boundary.
 
 For current Best Software eligibility, verify the live rules. In the 2026 snapshot, software must use an OSI-approved open-source license and be hosted in the dedicated iGEM GitLab repository; a GitHub link alone is not sufficient. Check any Software & AI Village restriction before recommending the award.
 

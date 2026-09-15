@@ -7,6 +7,12 @@ description: Plan, write, implement, or audit an entire iGEM team wiki by coordi
 
 Build one coherent, evidence-traceable project record. Treat award-winning wikis as precedents to analyze, not visual templates to copy.
 
+## Choose the smallest workflow
+
+Infer the lightest path that can finish the request; do not ask the user to select a process tier. Answer a small, self-contained question directly. For one page or module, inspect only its evidence and relevant domain guidance. Use the full preflight, evidence map, cross-page review, and browser verification path only for multi-artifact, mutating, judging-critical, or otherwise high-risk work.
+
+When the goal is understanding rather than publication, explain in the user's language and at their level, define necessary terms, distinguish source evidence from inference, and keep any publishable Wiki copy clearly separate. Do not edit files merely because they are available.
+
 ## Run the input preflight
 
 At the beginning of a substantial request, inspect the conversation and accessible workspace before asking the user for anything. Then give a short, user-visible readiness note using only the lines that add value:
@@ -28,7 +34,9 @@ Before long-running or mutating work, state a compact user-visible contract with
 
 When the user says continue or resume, inspect the current conversation, live files, repository status, generated artifacts, and any available checkpoint before asking for context. Treat a checkpoint as a possibly stale handoff hint: verify it against live state, preserve user changes, and continue from the next exact safe action without repeating completed work or broadening the authorized scope. Ask only when live evidence materially conflicts or required authority is missing.
 
-Create or update a persistent checkpoint only when the user requests or authorizes one. Use [assets/templates/resume-checkpoint.md](assets/templates/resume-checkpoint.md), store it at a user-approved project path, and keep it concise and free of secrets, credentials, identifiable interview data, and private raw records.
+Create or update a persistent checkpoint only when the user requests or authorizes one. Prefer an explicit path; otherwise use `<project-root>/.igem-wiki/checkpoint.md` as the discoverable default and state that path to the user. Use [assets/templates/resume-checkpoint.md](assets/templates/resume-checkpoint.md), keep it concise, and exclude secrets, credentials, identifiable interview data, and private raw records. The read-only `scripts/doctor.py SKILL_ROOT --project-root PROJECT_ROOT` check can report checkpoint presence and structure without printing its contents.
+
+When the user asks whether the collection is installed correctly, complete, or current, run `scripts/doctor.py` read-only before recommending any installation or repair. A coordinator installation requires all five sibling skills; a domain skill can be healthy on its own. Use `--source SOURCE_REPO` only when a trusted source checkout is available for staleness comparison.
 
 ## Route the task
 
@@ -42,12 +50,13 @@ Load only the domain instructions needed for the request:
 
 For the current Alternative Platform category, route biological-platform characterization to Wet Lab, deployment and safety evidence to Implementation, and whole-project framing to Story. Historical Results do not contain a same-name 2021–2025 award family, so use current official criteria rather than inventing a legacy mapping. Presentation production is outside this skill collection; the wiki should keep presentation claims consistent and traceable without treating Best Presentation as a wiki-page precedent.
 
-For a whole-site plan or audit, read [references/current-judging.md](references/current-judging.md), [references/cross-page-contract.md](references/cross-page-contract.md), and [references/review-checklist.md](references/review-checklist.md). Read [references/claim-evidence-register.md](references/claim-evidence-register.md) when claims span pages or risk overgeneralization. Read [references/ai-integrity.md](references/ai-integrity.md) whenever AI materially assists submitted work. For precedent research, also read [references/corpus-index.md](references/corpus-index.md) and [references/sampling-policy.md](references/sampling-policy.md).
+For a whole-site plan or audit, start with [references/current-judging.md](references/current-judging.md) plus whichever one of [references/cross-page-contract.md](references/cross-page-contract.md) or [references/review-checklist.md](references/review-checklist.md) best matches the request. Read [references/claim-evidence-register.md](references/claim-evidence-register.md) only when claims span pages or risk overgeneralization. Read [references/ai-integrity.md](references/ai-integrity.md) whenever AI materially assists submitted work. For precedent research, use [references/corpus-index.md](references/corpus-index.md) to select evidence, and read [references/sampling-policy.md](references/sampling-policy.md) only when sample design or corpus expansion is in scope. Initially load no more than three coordinator references; expand only when a concrete finding requires another one.
 
 When the 2026 Competition is in scope, read [references/seasons/2026-judging.md](references/seasons/2026-judging.md) and verify unstable requirements live. Do not silently apply a 2026 snapshot to another season.
 
 ## Choose the mode
 
+- **Understand:** explain the current material at the user's level without converting it into publication claims or editing files unless requested.
 - **Research:** verify official awards and current judging guidance, then extract recurring decisions from several contrasting wikis.
 - **Plan:** inspect the team's live files and evidence, then propose page ownership, cross-links, and priorities without editing.
 - **Write:** draft evidence-bounded content using the domain skill and the site's established voice.
@@ -98,7 +107,7 @@ When judging criteria, competition rules, deadlines, standard URLs, or award sta
 
 ## Verify implementation
 
-For edits, check syntax and references, then render the real pages at desktop and mobile widths. For a static HTML tree, `scripts/audit_static_wiki.py PATH --no-fail` can provide a read-only first pass for local links and assets, fragments, duplicate identifiers, machine-local paths, image alternatives, figure captions, language, titles, heading count, and heading-level jumps. Repeat `--required-route ROUTE` for current-season Standard URLs, and use `--exclude RELATIVE_PATH` for known non-deployable drafts. Use `--markdown` for a shareable report. Run the allowlisted `--check-external` pass only when network verification is requested; do not make it a deterministic CI gate. Treat warnings as review prompts and do not use this check as a substitute for browser or assistive-technology QA. Test global navigation, local table of contents, anchors, collapsed content, figures, equations, tables, media fallbacks, and outbound evidence links. Essential meaning must remain available without hover, animation, or a particular browser.
+For substantial visual or structural edits, implement and render one representative slice before rolling the pattern across many pages. Continue after checking it unless the user requested alternatives or the preview exposes a material evidence, scope, or design conflict. For edits, check syntax and references, then render the real pages at desktop and mobile widths. For a static HTML tree, `scripts/audit_static_wiki.py PATH --no-fail` can provide a read-only first pass for local links and assets, fragments, duplicate identifiers, machine-local paths, image alternatives, figure captions, language, titles, heading count, and heading-level jumps. Repeat `--required-route ROUTE` for current-season Standard URLs, and use `--exclude RELATIVE_PATH` for known non-deployable drafts. Use `--markdown` for a shareable report. Run the allowlisted `--check-external` pass only when network verification is requested; do not make it a deterministic CI gate. Treat warnings as review prompts and do not use this check as a substitute for browser or assistive-technology QA. Test global navigation, local table of contents, anchors, collapsed content, figures, equations, tables, media fallbacks, and outbound evidence links. Essential meaning must remain available without hover, animation, or a particular browser.
 
 ## Close the work loop
 

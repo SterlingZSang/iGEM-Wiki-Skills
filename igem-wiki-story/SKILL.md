@@ -7,6 +7,10 @@ description: Plan, write, implement, or audit the narrative and information arch
 
 Make the project understandable before making it impressive. The opening path should tell a judge what problem exists, who experiences it, what the team built, what evidence was obtained, and where to inspect it.
 
+## Choose the smallest workflow
+
+Answer a small, self-contained wording or comprehension request directly. For one page, inspect only that page and its canonical evidence. Use the full narrative, cross-page, and browser workflow only for substantial restructuring or high-risk claims. When the goal is understanding rather than publication, explain in the user's language and at their level, distinguish source evidence from inference, and keep publishable Wiki copy separate. Do not edit files unless requested.
+
 ## Run the input preflight
 
 Before substantial work, inspect the conversation and workspace, then briefly tell the user what was found, the minimum missing information, any optional inputs that would improve the result, and what you will use to start. The minimum is normally the target page or site, the desired mode or outcome, and the permitted edit scope when ambiguous. Useful story inputs include the one-sentence project claim, affected users, proposed system, current maturity, strongest supported result, canonical evidence pages, intended reader, language, and visual elements that must remain unchanged.
@@ -43,6 +47,8 @@ For a new or substantially restructured page, adapt the coordinator's page-brief
 Use progressive detail: one-sentence project statement, short story, system diagram, key evidence, then routes to depth. Preserve essential text when animation, video, counters, or WebGL does not load.
 
 ## Audit claims and experience
+
+For substantial visual or structural edits, render one representative section or page before applying the pattern broadly; continue unless the user requested alternatives or the preview reveals a material conflict.
 
 - Replace global claims with sourced, bounded statements.
 - Label prototypes, proposals, simulations, and validated results accurately.
