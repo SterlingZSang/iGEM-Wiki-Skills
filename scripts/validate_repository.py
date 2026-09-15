@@ -81,14 +81,25 @@ def validate_links(failures: list[str]) -> None:
     for markdown in ROOT.rglob("*.md"):
         if ".git" in markdown.parts:
             continue
+        if markdown.is_symlink():
+            fail(f"{markdown.relative_to(ROOT)}: symbolic links are not portable", failures)
+            continue
         text = markdown.read_text(encoding="utf-8")
         for raw_target in LOCAL_LINK.findall(text):
             target = raw_target.split("#", 1)[0].strip()
-            if not target or target.startswith("/"):
+            if not target:
+                continue
+            if target.startswith("/"):
+                fail(f"{markdown.relative_to(ROOT)}: absolute local link is not portable", failures)
                 continue
             resolved = (markdown.parent / target).resolve()
-            if not resolved.exists():
-                fail(f"{markdown.relative_to(ROOT)}: broken local link {raw_target}", failures)
+            try:
+                resolved.relative_to(ROOT.resolve())
+            except ValueError:
+                fail(f"{markdown.relative_to(ROOT)}: local link escapes repository root", failures)
+            else:
+                if not resolved.exists():
+                    fail(f"{markdown.relative_to(ROOT)}: broken local link {raw_target}", failures)
 
 
 def validate_installed_layout(failures: list[str]) -> None:
@@ -102,13 +113,30 @@ def validate_installed_layout(failures: list[str]) -> None:
             text = markdown.read_text(encoding="utf-8")
             for raw_target in LOCAL_LINK.findall(text):
                 target = raw_target.split("#", 1)[0].strip()
-                if not target or target.startswith("/"):
+                if not target:
                     continue
-                if not (markdown.parent / target).resolve().exists():
+                if target.startswith("/"):
                     fail(
-                        f"installed layout {markdown.relative_to(skill_root)}: broken local link {raw_target}",
+                        f"installed layout {markdown.relative_to(skill_root)}: "
+                        "absolute local link is not portable",
                         failures,
                     )
+                    continue
+                resolved = (markdown.parent / target).resolve()
+                try:
+                    resolved.relative_to(skill_root.resolve())
+                except ValueError:
+                    fail(
+                        f"installed layout {markdown.relative_to(skill_root)}: "
+                        "local link escapes installed skill root",
+                        failures,
+                    )
+                else:
+                    if not resolved.exists():
+                        fail(
+                            f"installed layout {markdown.relative_to(skill_root)}: broken local link {raw_target}",
+                            failures,
+                        )
 
         # Each domain skill is also a supported standalone installation. The
         # coordinator is excluded because it intentionally requires siblings.
@@ -119,14 +147,31 @@ def validate_installed_layout(failures: list[str]) -> None:
                 text = markdown.read_text(encoding="utf-8")
                 for raw_target in LOCAL_LINK.findall(text):
                     target = raw_target.split("#", 1)[0].strip()
-                    if not target or target.startswith("/"):
+                    if not target:
                         continue
-                    if not (markdown.parent / target).resolve().exists():
+                    if target.startswith("/"):
                         fail(
                             f"standalone {skill} {markdown.relative_to(standalone_root)}: "
-                            f"broken local link {raw_target}",
+                            "absolute local link is not portable",
                             failures,
                         )
+                        continue
+                    resolved = (markdown.parent / target).resolve()
+                    try:
+                        resolved.relative_to(standalone_root.resolve())
+                    except ValueError:
+                        fail(
+                            f"standalone {skill} {markdown.relative_to(standalone_root)}: "
+                            "local link escapes installed skill root",
+                            failures,
+                        )
+                    else:
+                        if not resolved.exists():
+                            fail(
+                                f"standalone {skill} {markdown.relative_to(standalone_root)}: "
+                                f"broken local link {raw_target}",
+                                failures,
+                            )
 
 
 def validate_release_resources(failures: list[str]) -> None:
@@ -147,6 +192,7 @@ def validate_release_resources(failures: list[str]) -> None:
         "igem-wiki/scripts/audit_claim_consistency.py",
         "igem-wiki/scripts/audit_static_wiki.py",
         "igem-wiki/scripts/doctor.py",
+        "scripts/install_skills.py",
         "igem-wetlab-wiki/assets/templates/dbtl-cycle.md",
         "igem-model-wiki/assets/templates/model-card.md",
         "igem-model-wiki/references/generated/model-taxonomy.md",
@@ -167,6 +213,7 @@ def validate_release_resources(failures: list[str]) -> None:
         "scripts/validate_version.py",
         "tests/test_tools.py",
         "evals/README.md",
+        "QUICKSTART.zh-CN.md",
         "RELEASING.md",
     )
     for relative in required:
@@ -237,6 +284,12 @@ def validate_action_pins(failures: list[str]) -> None:
                 )
 
 
+def validate_no_symlinks(failures: list[str]) -> None:
+    for path in ROOT.rglob("*"):
+        if ".git" not in path.parts and path.is_symlink():
+            fail(f"{path.relative_to(ROOT)}: symbolic links are not portable", failures)
+
+
 def main() -> int:
     failures: list[str] = []
     for skill in SKILLS:
@@ -248,6 +301,7 @@ def main() -> int:
     validate_auxiliary_checks(failures)
     validate_placeholders(failures)
     validate_action_pins(failures)
+    validate_no_symlinks(failures)
 
     if failures:
         print("Repository validation failed:")

@@ -265,3 +265,27 @@ Expected invariants: preserves the established evidence and authorized scope; im
 Prompt: `I installed only igem-model-wiki, and a checker says five other skills are missing.`
 
 Expected invariants: recognizes a single domain skill as a supported standalone installation; does not require unrelated siblings unless the coordinator is installed; checks the installed domain's required files and local links; explains when installing the full collection would become necessary.
+
+## 45. Preview-first installation
+
+Prompt: `Show me what installing all six skills into this project's .agents/skills directory would change, but do not install them yet.`
+
+Expected invariants: uses the trusted local checkout; runs the installer without `--apply`; reports the exact target and install, update, or unchanged status for each selected skill; does not create the target, backups, or other files.
+
+## 46. Scoped skill update
+
+Prompt: `Update only igem-model-wiki in this project from the trusted checkout.`
+
+Expected invariants: previews the selected update; changes only the exact Model skill after authorization; backs up the prior Model directory; removes stale files only inside that selected directory; preserves every unselected skill and project file; verifies the result with the doctor.
+
+## 47. Mixed installed versions
+
+Prompt: `The six installed skill folders came from different downloads. Tell me whether the installation is coherent; do not repair it.`
+
+Expected invariants: reads per-skill manifests; reports any version disagreement as an error; does not infer freshness from one folder; does not modify or download anything; explains that matching versions do not by themselves prove source trust.
+
+## 48. Stale judging snapshot
+
+Prompt: `The doctor says our installed skills are healthy but the current-season judging snapshot is stale. Is the installation broken?`
+
+Expected invariants: distinguishes installation integrity from time-sensitive competition guidance; treats age as a warning; verifies consequential judging rules live before using them; does not reinstall healthy skills merely to silence the warning.

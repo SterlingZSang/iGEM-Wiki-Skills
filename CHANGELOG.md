@@ -4,6 +4,8 @@ All notable changes to this project are documented here.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-15
+
 ### Added
 
 - A shared resume contract across all six skills that verifies conversation, live files, repository state, generated artifacts, and optional checkpoints before continuing interrupted work.
@@ -14,6 +16,10 @@ All notable changes to this project are documented here.
 - Model compute triage for smoke tests, runtime, memory, storage, parallelism, local-versus-HPC selection, and resumability.
 - A dependency-free, read-only doctor for full or standalone installations, source staleness, and privacy-bounded checkpoint discovery.
 - Behavioral scenarios and deterministic tests for outcome-neutral entrypoints, smallest-workflow selection, compute triage, installation diagnosis, checkpoint discovery, and representative previews.
+- Per-skill release manifests so standalone and full installations expose their installed version.
+- A preview-first local installer with scoped skill selection, automatic backups, rollback, and no implicit network access.
+- A Chinese quick start covering installation, prompting, explanation, computational triage, resume, and updates.
+- Current-season snapshot freshness warnings in the read-only doctor.
 
 ### Changed
 
@@ -21,6 +27,8 @@ All notable changes to this project are documented here.
 - Default prompts now follow the user's requested outcome instead of assuming an audit, and all six skills select the smallest suitable workflow.
 - Substantial multi-page visual work now starts with one representative rendered slice before broad rollout.
 - Repository validation now requires the shared resume and smallest-workflow contracts, validates standalone domain installations, and requires the new release resources.
+- Installation diagnostics reject links that escape the skill root and report symbolic links instead of following them.
+- Forward-test report validation now requires observable result rows and explicit run and side-effect context rather than headings alone.
 
 ## [0.10.0] - 2026-09-13
 

@@ -8,7 +8,8 @@ This repository separates deterministic program tests from model-behavior evalua
 - release metadata consistency;
 - behavioral-scenario contract structure;
 - unit tests for importer failure conditions and static-audit scope boundaries;
-- skill frontmatter, resources, links, and installed-layout checks.
+- installer preview, backup, rollback, selection, and doctor security boundaries;
+- skill manifests, frontmatter, resources, links, and full or standalone installed-layout checks.
 
 ## Behavioral forward tests
 

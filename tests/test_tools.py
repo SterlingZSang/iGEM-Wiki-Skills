@@ -9,10 +9,12 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCTOR = ROOT / "igem-wiki" / "scripts" / "doctor.py"
+INSTALLER = ROOT / "scripts" / "install_skills.py"
 SKILLS = (
     "igem-wiki",
     "igem-wiki-story",
@@ -46,6 +48,27 @@ class ImporterTests(unittest.TestCase):
         data = [{"title": title} for title in titles]
         with self.assertRaisesRegex(ValueError, "Best Model"):
             self.importer.validate_award_titles(2025, data)
+
+
+class EvaluationContractTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.validator = load_module("validate_evals", ROOT / "scripts" / "validate_evals.py")
+
+    def test_empty_forward_report_is_rejected(self) -> None:
+        text = """# Empty report
+## Run context
+- Candidate: candidate
+- Evaluator: evaluator
+- Mutation boundary: read-only
+## Results
+## Corrective change
+None.
+## Residual limitations
+None recorded.
+"""
+        failures = self.validator.validate_run_report("empty.md", text)
+        self.assertTrue(any("result row" in failure for failure in failures))
 
 
 class StaticAuditTests(unittest.TestCase):
@@ -468,22 +491,28 @@ class SkillDoctorTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0)
             self.assertEqual(report["expected_mode"], "standalone-domain")
             self.assertEqual(report["present_skills"], ["igem-model-wiki"])
+            self.assertEqual(report["installed_version"], "1.0.0")
             self.assertEqual(report["issues"], [])
 
     def test_direct_skill_directory_is_accepted(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             skill_root = Path(temporary) / "skills"
-            self.copy_skills(skill_root, ("igem-model-wiki",))
+            self.copy_skills(skill_root, ("igem-model-wiki", "igem-wetlab-wiki"))
+            with (skill_root / "igem-wetlab-wiki" / "SKILL.md").open("a", encoding="utf-8") as handle:
+                handle.write("\nunrelated local change\n")
             result, report = self.run_doctor(skill_root / "igem-model-wiki")
             self.assertEqual(result.returncode, 0)
-            self.assertEqual(report["root"], str(skill_root.resolve()))
+            self.assertEqual(Path(report["root"]).resolve(), skill_root.resolve())
             self.assertEqual(report["present_skills"], ["igem-model-wiki"])
+            self.assertEqual(report["selected_skill"], "igem-model-wiki")
 
     def test_source_comparison_accepts_exact_copy(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             skill_root = Path(temporary) / "skills"
             self.copy_skills(skill_root)
-            result, report = self.run_doctor(skill_root, "--source", str(ROOT))
+            result, report = self.run_doctor(
+                skill_root, "--source", str(ROOT), "--as-of", "2026-09-15"
+            )
             self.assertEqual(result.returncode, 0)
             self.assertEqual(report["issues"], [])
             self.assertEqual(report["source_version"], (ROOT / "VERSION").read_text().strip())
@@ -539,6 +568,264 @@ class SkillDoctorTests(unittest.TestCase):
             codes = {item["code"] for item in report["issues"]}
             self.assertIn("checkpoint-possible-secret", codes)
             self.assertIn("checkpoint-heading-missing", codes)
+
+    def test_local_link_cannot_escape_skill_root(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            skill_root = temporary_root / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            (temporary_root / "outside.md").write_text("outside\n", encoding="utf-8")
+            with (skill_root / "igem-model-wiki" / "SKILL.md").open("a", encoding="utf-8") as handle:
+                handle.write("\n[private](../../outside.md)\n")
+            result, report = self.run_doctor(skill_root)
+            self.assertEqual(result.returncode, 1)
+            self.assertTrue(
+                any(item["code"] == "local-link-escapes-root" for item in report["issues"])
+            )
+
+    def test_symbolic_link_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            skill_root = temporary_root / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            outside = temporary_root / "outside.txt"
+            outside.write_text("outside\n", encoding="utf-8")
+            (skill_root / "igem-model-wiki" / "references" / "linked.txt").symlink_to(outside)
+            result, report = self.run_doctor(skill_root)
+            self.assertEqual(result.returncode, 1)
+            self.assertTrue(
+                any(item["code"] == "symlink-not-portable" for item in report["issues"])
+            )
+
+    def test_symbolic_link_skill_root_is_not_followed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            real_root = temporary_root / "real-skills"
+            self.copy_skills(real_root, ("igem-model-wiki",))
+            linked_root = temporary_root / "linked-skills"
+            linked_root.symlink_to(real_root, target_is_directory=True)
+            result, report = self.run_doctor(linked_root)
+            self.assertEqual(result.returncode, 1)
+            self.assertEqual(report["present_skills"], [])
+            self.assertTrue(
+                any(
+                    item["code"] == "skill-root-symlink-not-allowed"
+                    for item in report["issues"]
+                )
+            )
+
+    def test_stale_season_is_warning_not_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root)
+            result, report = self.run_doctor(skill_root, "--as-of", "2026-12-01")
+            self.assertEqual(result.returncode, 0)
+            warnings = [item for item in report["issues"] if item["severity"] == "warning"]
+            self.assertTrue(any(item["code"] == "season-snapshot-stale" for item in warnings))
+
+    def test_mixed_installed_versions_are_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki", "igem-wetlab-wiki"))
+            manifest_path = skill_root / "igem-wetlab-wiki" / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["version"] = "0.9.0"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            result, report = self.run_doctor(skill_root)
+            self.assertEqual(result.returncode, 1)
+            self.assertTrue(
+                any(item["code"] == "installed-version-mismatch" for item in report["issues"])
+            )
+
+    def test_invalid_manifest_metadata_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            skill_root = Path(temporary) / "skills"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            manifest_path = skill_root / "igem-model-wiki" / "manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["schema_version"] = 99
+            manifest["collection"] = "different-collection"
+            manifest["version"] = "version-one"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            result, report = self.run_doctor(skill_root)
+            self.assertEqual(result.returncode, 1)
+            codes = {item["code"] for item in report["issues"]}
+            self.assertIn("manifest-schema-unsupported", codes)
+            self.assertIn("manifest-collection-mismatch", codes)
+            self.assertIn("manifest-version-invalid", codes)
+
+    def test_checkpoint_symlink_is_not_read(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            skill_root = temporary_root / "skills"
+            project_root = temporary_root / "project"
+            self.copy_skills(skill_root, ("igem-model-wiki",))
+            outside = temporary_root / "outside.md"
+            outside.write_text("password=verysecret\n", encoding="utf-8")
+            checkpoint = project_root / ".igem-wiki" / "checkpoint.md"
+            checkpoint.parent.mkdir(parents=True)
+            checkpoint.symlink_to(outside)
+            result, report = self.run_doctor(
+                skill_root, "--project-root", str(project_root)
+            )
+            self.assertEqual(result.returncode, 1)
+            self.assertNotIn("verysecret", result.stdout)
+            self.assertTrue(
+                any(
+                    item["code"] == "checkpoint-symlink-not-allowed"
+                    for item in report["issues"]
+                )
+            )
+
+
+class SkillInstallerTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.installer = load_module("install_skills", INSTALLER)
+
+    def run_installer(
+        self, target: Path, *extra: str
+    ) -> tuple[subprocess.CompletedProcess[str], dict]:
+        result = subprocess.run(
+            [sys.executable, str(INSTALLER), str(target), "--json", *extra],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        return result, json.loads(result.stdout)
+
+    def test_preview_is_read_only(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "skills"
+            result, report = self.run_installer(
+                target, "--skill", "igem-model-wiki"
+            )
+            self.assertEqual(result.returncode, 0)
+            self.assertFalse(target.exists())
+            self.assertFalse(report["applied"])
+            self.assertEqual(report["changes"][0]["action"], "install")
+
+    def test_source_manifest_schema_and_collection_are_required(self) -> None:
+        manifest_path = ROOT / "igem-model-wiki" / "manifest.json"
+        original = json.loads(manifest_path.read_text(encoding="utf-8"))
+        for field, value in (("schema_version", 99), ("collection", "other")):
+            changed = dict(original)
+            changed[field] = value
+            with mock.patch.object(
+                self.installer,
+                "read_manifest",
+                return_value=changed,
+            ):
+                with self.assertRaisesRegex(ValueError, "source manifest does not match"):
+                    self.installer.validate_source(["igem-model-wiki"])
+
+    def test_apply_installs_selected_skill(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "skills"
+            result, report = self.run_installer(
+                target, "--skill", "igem-model-wiki", "--apply"
+            )
+            self.assertEqual(result.returncode, 0)
+            self.assertTrue(report["applied"])
+            self.assertTrue((target / "igem-model-wiki" / "SKILL.md").is_file())
+            self.assertFalse((target / "igem-wiki").exists())
+            doctor = subprocess.run(
+                [sys.executable, str(DOCTOR), str(target), "--source", str(ROOT)],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            self.assertEqual(doctor.returncode, 0, doctor.stdout + doctor.stderr)
+
+    def test_update_backs_up_and_removes_extra_files(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "skills"
+            first, _ = self.run_installer(
+                target, "--skill", "igem-model-wiki", "--apply"
+            )
+            self.assertEqual(first.returncode, 0)
+            skill_file = target / "igem-model-wiki" / "SKILL.md"
+            with skill_file.open("a", encoding="utf-8") as handle:
+                handle.write("\nlocal edit\n")
+            (target / "igem-model-wiki" / "extra.txt").write_text(
+                "extra\n", encoding="utf-8"
+            )
+            result, report = self.run_installer(
+                target, "--skill", "igem-model-wiki", "--apply"
+            )
+            self.assertEqual(result.returncode, 0)
+            self.assertIsNotNone(report["backup"])
+            backup = Path(report["backup"]) / "igem-model-wiki"
+            self.assertTrue((backup / "extra.txt").is_file())
+            self.assertIn("local edit", (backup / "SKILL.md").read_text(encoding="utf-8"))
+            self.assertFalse((target / "igem-model-wiki" / "extra.txt").exists())
+            self.assertEqual(
+                skill_file.read_bytes(), (ROOT / "igem-model-wiki" / "SKILL.md").read_bytes()
+            )
+
+    def test_symbolic_link_target_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            real_target = temporary_root / "real"
+            real_target.mkdir()
+            linked_target = temporary_root / "linked"
+            linked_target.symlink_to(real_target, target_is_directory=True)
+            result, report = self.run_installer(
+                linked_target, "--skill", "igem-model-wiki", "--apply"
+            )
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("symbolic link", report["error"])
+
+    def test_symbolic_link_backup_directory_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            target = temporary_root / "skills"
+            first, _ = self.run_installer(
+                target, "--skill", "igem-model-wiki", "--apply"
+            )
+            self.assertEqual(first.returncode, 0)
+            with (target / "igem-model-wiki" / "SKILL.md").open("a", encoding="utf-8") as handle:
+                handle.write("\nlocal edit\n")
+            outside = temporary_root / "outside-backups"
+            outside.mkdir()
+            (target / ".igem-wiki-backups").symlink_to(outside, target_is_directory=True)
+            result, report = self.run_installer(
+                target, "--skill", "igem-model-wiki", "--apply"
+            )
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("backup directory", report["error"])
+            self.assertIn(
+                "local edit",
+                (target / "igem-model-wiki" / "SKILL.md").read_text(encoding="utf-8"),
+            )
+
+    def test_failed_multi_skill_update_rolls_back_prior_replacements(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "skills"
+            target.mkdir()
+            selected = ["igem-model-wiki", "igem-wetlab-wiki"]
+            for skill in selected:
+                shutil.copytree(ROOT / skill, target / skill)
+                with (target / skill / "SKILL.md").open("a", encoding="utf-8") as handle:
+                    handle.write(f"\nold {skill}\n")
+            version = self.installer.validate_source(selected)
+            report = self.installer.plan_install(target, selected, version)
+            original_replace = self.installer.os.replace
+
+            def fail_on_second_new(source, destination):
+                source_path = Path(source)
+                if source_path.parent.name == "new" and source_path.name == "igem-wetlab-wiki":
+                    raise OSError("simulated replacement failure")
+                return original_replace(source, destination)
+
+            with mock.patch.object(self.installer.os, "replace", side_effect=fail_on_second_new):
+                with self.assertRaisesRegex(OSError, "simulated replacement failure"):
+                    self.installer.apply_plan(report)
+            for skill in selected:
+                self.assertIn(
+                    f"old {skill}",
+                    (target / skill / "SKILL.md").read_text(encoding="utf-8"),
+                )
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # iGEM 2026 judging and deliverables snapshot
 
-Verified on 2026-09-08. This is a working map, not an official substitute. Recheck the live pages before eligibility, deadline, or award decisions.
+Verified on 2026-09-15. This is a working map, not an official substitute. Recheck the live pages before eligibility, deadline, or award decisions.
 
 ## Official sources
 
@@ -66,4 +66,3 @@ The official calendar currently lists Wiki, Attributions Form, Judging Form, Reg
 3. Resolve contradictions among Wiki, Registry, software repository, safety forms, and Attributions Form.
 4. Test the published pages without local assets, logged-in access, hover, or motion.
 5. Preserve a buffer before the official freeze; do not plan final deployment at the deadline.
-

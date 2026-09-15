@@ -36,7 +36,9 @@ When the user says continue or resume, inspect the current conversation, live fi
 
 Create or update a persistent checkpoint only when the user requests or authorizes one. Prefer an explicit path; otherwise use `<project-root>/.igem-wiki/checkpoint.md` as the discoverable default and state that path to the user. Use [assets/templates/resume-checkpoint.md](assets/templates/resume-checkpoint.md), keep it concise, and exclude secrets, credentials, identifiable interview data, and private raw records. The read-only `scripts/doctor.py SKILL_ROOT --project-root PROJECT_ROOT` check can report checkpoint presence and structure without printing its contents.
 
-When the user asks whether the collection is installed correctly, complete, or current, run `scripts/doctor.py` read-only before recommending any installation or repair. A coordinator installation requires all five sibling skills; a domain skill can be healthy on its own. Use `--source SOURCE_REPO` only when a trusted source checkout is available for staleness comparison.
+When the user asks whether the collection is installed correctly, complete, or current, run `scripts/doctor.py` read-only before recommending any installation or repair. A coordinator installation requires all five sibling skills; a domain skill can be healthy on its own. Use `--source SOURCE_REPO` only when a trusted source checkout is available for staleness comparison. Treat current-season snapshot age as a prompt to verify unstable rules live, not as an installation failure.
+
+When a trusted source checkout is available, its repository-level `scripts/install_skills.py TARGET` command previews a scoped installation or update. Run it with `--apply` only when the user has authorized changing that exact target. Preserve its backup, do not select unrelated skills, and run the doctor after installation. The installer does not download from the network or establish that the source checkout itself is trustworthy.
 
 ## Route the task
 

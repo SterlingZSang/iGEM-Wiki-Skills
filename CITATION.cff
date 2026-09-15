@@ -4,10 +4,10 @@ title: "iGEM Wiki Skills"
 type: software
 authors:
   - name: "Sterling Travis"
-repository-code: "https://github.com/TravisBoston16/iGEM-Wiki-Skills"
-url: "https://github.com/TravisBoston16/iGEM-Wiki-Skills"
-version: 0.10.0
-date-released: 2026-09-13
+repository-code: "https://github.com/SterlingZSang/iGEM-Wiki-Skills"
+url: "https://github.com/SterlingZSang/iGEM-Wiki-Skills"
+version: 1.0.0
+date-released: 2026-09-15
 license: MIT
 keywords:
   - iGEM

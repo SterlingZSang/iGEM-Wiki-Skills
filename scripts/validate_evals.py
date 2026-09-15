@@ -15,6 +15,30 @@ RUN_HEADINGS = (
     "## Corrective change",
     "## Residual limitations",
 )
+RESULT_ROW = re.compile(
+    r"^\|\s*[A-Z][A-Z0-9-]*-\d+\s*\|[^\n]*\|\s*(?:Pass|Partial|Fail)\s*\|[^\n]*$",
+    re.MULTILINE,
+)
+
+
+def validate_run_report(name: str, text: str) -> list[str]:
+    failures: list[str] = []
+    for heading in RUN_HEADINGS:
+        if heading not in text:
+            failures.append(f"{name} lacks {heading}")
+    if failures:
+        return failures
+    context = text.split("## Run context", 1)[1].split("## Results", 1)[0]
+    results = text.split("## Results", 1)[1].split("## Corrective change", 1)[0]
+    residual = text.split("## Residual limitations", 1)[1].strip()
+    for field in ("Candidate", "Evaluator", "Mutation boundary"):
+        if not re.search(rf"^- {re.escape(field)}:\s*\S.+$", context, re.MULTILINE):
+            failures.append(f"{name} lacks non-empty {field} context")
+    if not RESULT_ROW.search(results):
+        failures.append(f"{name} lacks an observable Pass, Partial, or Fail result row")
+    if not residual:
+        failures.append(f"{name} lacks residual limitations content")
+    return failures
 
 
 def main() -> int:
@@ -40,9 +64,7 @@ def main() -> int:
         failures.append("no behavioral forward-test reports found")
     for run_file in run_files:
         run_text = run_file.read_text(encoding="utf-8")
-        for heading in RUN_HEADINGS:
-            if heading not in run_text:
-                failures.append(f"{run_file.name} lacks {heading}")
+        failures.extend(validate_run_report(run_file.name, run_text))
     if failures:
         print("Behavioral evaluation contract validation failed:")
         for failure in failures:

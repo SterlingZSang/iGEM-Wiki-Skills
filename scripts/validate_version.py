@@ -4,12 +4,22 @@
 from __future__ import annotations
 
 import datetime as dt
+import json
 import re
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 SEMVER = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$")
+SKILLS = (
+    "igem-wiki",
+    "igem-wiki-story",
+    "igem-wetlab-wiki",
+    "igem-model-wiki",
+    "igem-hp-wiki",
+    "igem-implementation-wiki",
+)
+REPOSITORY = "https://github.com/SterlingZSang/iGEM-Wiki-Skills"
 
 
 def main() -> int:
@@ -30,6 +40,25 @@ def main() -> int:
             dt.date.fromisoformat(citation_date.group(1))
         except ValueError:
             failures.append("CITATION.cff date-released is invalid")
+    for field in ("repository-code", "url"):
+        if f'{field}: "{REPOSITORY}"' not in citation:
+            failures.append(f"CITATION.cff {field} does not use the canonical repository")
+
+    for skill in SKILLS:
+        manifest_path = ROOT / skill / "manifest.json"
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            failures.append(f"{skill}: missing or invalid manifest.json")
+            continue
+        if manifest.get("schema_version") != 1:
+            failures.append(f"{skill}: unsupported manifest schema")
+        if manifest.get("collection") != "iGEM-Wiki-Skills":
+            failures.append(f"{skill}: manifest collection mismatch")
+        if manifest.get("skill") != skill:
+            failures.append(f"{skill}: manifest skill mismatch")
+        if manifest.get("version") != version:
+            failures.append(f"{skill}: manifest version does not match VERSION")
 
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     if f"Current release: **v{version}**" not in readme:

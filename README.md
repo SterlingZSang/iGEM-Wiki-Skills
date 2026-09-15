@@ -2,7 +2,9 @@
 
 A modular Codex skill collection for researching, planning, writing, implementing, and auditing evidence-led iGEM team wikis.
 
-Current release: **v0.10.0**
+Current release: **v1.0.0**
+
+[中文快速入门](QUICKSTART.zh-CN.md)
 
 ## Skills
 
@@ -17,13 +19,22 @@ Current release: **v0.10.0**
 
 Not sure which one to invoke? Start with `$igem-wiki`. It inspects the available context and routes only the relevant domain skill or skills. Invoke a domain skill directly when the request is already confined to one area.
 
-## In development
+## What v1.0.0 provides
 
-The next release candidate adds a verified resume path, a privacy-bounded checkpoint template, and a read-only cross-page claim-consistency auditor. It also makes the default entrypoints outcome-neutral, adds an explicit understanding mode, chooses the smallest useful workflow, previews one representative slice before broad visual changes, triages costly Model runs before execution, and includes a read-only installation/checkpoint doctor. These changes are not part of the current v0.10.0 release until a new version is tagged.
+Release v1.0.0 is the first stable collection release. It combines the evidence and interaction work developed through v0.10.0 with safe installation, versioned skill manifests, installation diagnostics, resumable work, and user-language explanation.
 
-## What v0.10.0 adds
+- outcome-neutral entrypoints that choose the smallest useful workflow rather than assuming an audit;
+- an understanding mode that separates explanation from publishable Wiki copy;
+- a verified resume path and privacy-bounded checkpoint template;
+- Model compute triage before costly local or HPC runs;
+- a representative-preview rule before broad visual or structural rollout;
+- a safe, preview-first installer with scoped selection, automatic backups, and rollback;
+- per-skill version manifests plus a read-only installation, source-freshness, checkpoint, link-boundary, and season-freshness doctor;
+- a Chinese quick start with installation, prompting, computation, and resume examples;
+- 48 behavioral contracts, stronger forward-test report validation, and recorded independent tests;
+- a read-only cross-page claim-consistency auditor.
 
-Release v0.10.0 closes the user interaction loop across all six skills, while retaining the v0.9.0 progressive input preflight and v0.8.0 module-level Model evidence corpus.
+The v0.10.0 interaction foundation remains included:
 
 - a compact delivery contract covering the intended artifact, authorized scope, and observable completion condition;
 - a requirement to surface that contract before the first file mutation or costly run, without reconfirming details already supplied;
@@ -81,23 +92,30 @@ python3 scripts/query_corpus.py model-modules \
 
 ### Project-local
 
-Copy all six directories into the project's `.agents/skills/` directory:
+Clone or download this trusted repository, then preview installation into the project's `.agents/skills/` directory:
 
 ```bash
-mkdir -p .agents/skills
-cp -R /path/to/igem-wiki-skills/igem-* .agents/skills/
+python3 scripts/install_skills.py /path/to/wiki/.agents/skills
+python3 scripts/install_skills.py /path/to/wiki/.agents/skills --apply
 ```
 
-Install the full collection when using `igem-wiki`, because the coordinator routes specialized work to its five sibling skills. A single domain skill can be installed alone when only that domain is needed.
+The first command is read-only. The second applies the displayed plan; existing selected skills are backed up before replacement. Install the full collection when using `igem-wiki`, because the coordinator routes specialized work to its five sibling skills. A single domain skill can be installed alone when only that domain is needed:
+
+```bash
+python3 scripts/install_skills.py /path/to/wiki/.agents/skills \
+  --skill igem-model-wiki --apply
+```
 
 ### Personal
 
 ```bash
-mkdir -p "$CODEX_HOME/skills"
-cp -R /path/to/igem-wiki-skills/igem-* "$CODEX_HOME/skills/"
+python3 scripts/install_skills.py ~/.codex/skills
+python3 scripts/install_skills.py ~/.codex/skills --apply
 ```
 
 Restart or reload Codex if the new skills are not discovered immediately.
+
+See the [Chinese quick start](QUICKSTART.zh-CN.md) for copyable first requests, update instructions, and the difference between understanding a project and writing publication copy.
 
 ## Usage examples
 
@@ -174,7 +192,7 @@ python3 igem-wiki/scripts/doctor.py /path/to/.agents/skills \
   --source /path/to/igem-wiki-skills --project-root /path/to/wiki
 ```
 
-The coordinator requires all five sibling skills. A standalone domain skill is valid by itself. The doctor reports differences and possible checkpoint secrets by location only; it never repairs files or displays the suspected secret value. Omit `--source` when only structural installation health is needed, and add `--json` for machine-readable output.
+The coordinator requires all five sibling skills. A standalone domain skill is valid by itself. The doctor reports installed versions, differences, escaped links, symbolic links, possible checkpoint secrets by location only, and stale current-season snapshots. It never repairs files or displays a suspected secret value. Season freshness is a warning rather than an installation failure. Omit `--source` when only structural installation health is needed, and add `--json` for machine-readable output.
 
 For a read-only first pass over static HTML:
 
@@ -224,4 +242,4 @@ Released under the MIT License. See [LICENSE](LICENSE). Citation metadata is pro
 
 ## 中文简介
 
-这是一组模块化的 iGEM Wiki Codex skills。`igem-wiki` 负责全站证据、赛季合规与跨页面协调，其余五个 skill 分别处理项目叙事、湿实验、建模、Human Practices 和落地实施。v0.10.0 在渐进式输入预检之外增加交付契约与完成契约：开始前明确交付物、授权范围和完成标准，结束时区分已完成工作、证据限制、验证与下一项关键输入；同时保留 v0.8.0 的 1,054 条官方奖项记录、101 条页面审阅与覆盖 2021–2025 全区间的 34 条 Model 模块证据记录。
+这是一组模块化的 iGEM Wiki Codex skills。`igem-wiki` 负责全站证据、赛季合规与跨页面协调，其余五个 skill 分别处理项目叙事、湿实验、建模、Human Practices 和落地实施。v1.0.0 增加理解模式、最小工作流、计算量预检、可恢复 checkpoint、安全安装器、版本清单和只读 doctor，同时保留 1,054 条官方奖项记录、101 条页面审阅与覆盖 2021–2025 全区间的 34 条 Model 模块证据记录。完整中文安装与使用说明见 [中文快速入门](QUICKSTART.zh-CN.md)。
